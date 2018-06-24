@@ -6,7 +6,7 @@ const fs = require("fs");
 
 var client = new Discord.Client();
 
-var version = "V.1.2.4"
+var version = "V.1.2.5"
 
 var bot = new Discord.Client();
 
@@ -603,6 +603,7 @@ bot.on("message", async function(message) {
             var load4_embed = new Discord.RichEmbed()
                 .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")    
             let startTime = Date.now();
+            message.channel.send(ping_embed).then(message => message.edit(botinfo_embed));
             var botinfo_embed = new Discord.RichEmbed()
                 .setColor('#04B404')
                 .setTitle('Mes informations :')
@@ -627,39 +628,48 @@ bot.on("message", async function(message) {
             if (message.author.id === "193092758267887616") {
                 const fondateur_embed = new Discord.RichEmbed()
                     .setColor("#DB1414")
-                    .setAuthor("Fondateur – VCS", message.author.avatarURL)
-                    .setDescription(suffix)
+                    .setAuthor("Fondateur – VCS", message.guild.iconURL)
+                        .addField("Message de : " + message.author.username + "#" + message.author.discriminator, suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
-                        .addField("Message de : ", message.author.toString())
-                    .setThumbnail(message.guild.iconURL)
+                    .setThumbnail(message.author.avatarURL)
                     .setFooter("Ilian's Community | IlianBOT - " + version)
                     .setTimestamp()
                 message.delete()
                 return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(fondateur_embed));
             } 
             if (message.author.id === "274240989944610827") {
-                const gay_embed = new Discord.RichEmbed()
+                const love_embed = new Discord.RichEmbed()
                     .setColor("#F24D4A")
-                    .setAuthor("💘MON COEUR EN SUCRE💘 – VCS", message.author.avatarURL)
+                    .setAuthor("💘MON COEUR EN SUCRE💘 – VCS", message.guild.iconURL)
                     .setDescription(suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
                         .addField("Message de : ", message.author.toString())
-                    .setThumbnail(message.guild.iconURL)
+                        .setThumbnail(message.author.avatarURL)
                     .setFooter("Ilian's Community | IlianBOT - " + version)
                     .setTimestamp()
                 message.delete()
-                return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(gay_embed));
+                return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(love_embed));
+            } 
+            if (message.author.id === "322000779139350538") {
+                const ban_embed = new Discord.RichEmbed()
+                    .setColor("#2A00FF")
+                    .setAuthor("Bannie – VCS", message.guild.iconURL)
+                    .setDescription("Nous somme désolé mais vous avez été bannie du vcs.")
+                    .setThumbnail(message.author.avatarURL)
+                    .setFooter("Ilian's Community | IlianBOT - " + version)
+                    .setTimestamp()
+                message.delete()
+                return bot.channels.send(ban_embed);
             } 
             {
                 const vcs_embed = new Discord.RichEmbed()
                     .setColor("#2A00FF")
-                    .setAuthor("Utilisateur – VCS", message.author.avatarURL)
+                    .setAuthor("Utilisateur – VCS", message.guild.iconURL)
                     .setDescription(suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
                         .addField("Message de : ", message.author.toString())
-                    .setThumbnail(message.guild.iconURL)
+                        .setThumbnail(message.author.avatarURL)
                     .setFooter("Ilian's Community | IlianBOT - " + version)
-                    .setTimestamp()
                     .setTimestamp()
                 message.delete()
                 bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(vcs_embed));
@@ -751,11 +761,11 @@ bot.on("message", async function(message) {
                 .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")       
             var servinfo_embed = new Discord.RichEmbed()
                 .setAuthor("Information du Serveur", message.author.avatarURL)
-                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "``.", true)
+                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "`.", true)
                     .addField("ServeurID :", "L'ID du serveur est : ``" + message.guild.id + "``.", true)
                     .addField("Création du Serveur", "Le serveur à été crée le : ``" + message.guild.createdAt + "``.", true)
                     .addField("Fondateur :", "Le fondateur du serveur est : " + message.guild.owner + ".", true)
-                    .addField("FondateurID :", "L'ID du Fondateur est : ``" + message.guild.ownerID + "``.", true)
+                    .addField("FondateurID :", "L'ID du Fondteur est : ``" + message.guild.ownerID + "``.", true)
                     .addField("Membres :", "Nous sommes actuellement ``" + message.guild.memberCount  + " membres`` au total.", true)
                 .setColor("#FF0000")
                 .setFooter(foother)
@@ -766,8 +776,8 @@ bot.on("message", async function(message) {
            if (message.author.id === "193092758267887616") {
                 var maj_embed = new Discord.RichEmbed()
                 .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("VCS Update,", "**Le vcs a subbit une petite mise à jour.**")
-                .setColor("#04B404")
+                    .addField("VCS Update,", "**Le vcs a subbit une autre mise à jour au niveau du design.**")
+                .setColor("#00FF6F")
                 .setFooter(version)
                 .setThumbnail(message.author.avatarURL)
             bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
