@@ -6,7 +6,7 @@ const fs = require("fs");
 
 var client = new Discord.Client();
 
-var version = "V.1.2.3"
+var version = "V.1.2.4"
 
 var bot = new Discord.Client();
 
@@ -632,8 +632,8 @@ bot.on("message", async function(message) {
                     .setDescription(suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
                         .addField("Message de : ", message.author.toString())
-                    .setThumbnail(message.author.avatarUR)
-                    .setFooter("Ilian's Corporation")
+                    .setThumbnail(message.guild.iconURL)
+                    .setFooter("Ilian's Community | IlianBOT - " + version)
                     .setTimestamp()
                 message.delete()
                 return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(fondateur_embed));
@@ -641,12 +641,12 @@ bot.on("message", async function(message) {
             if (message.author.id === "274240989944610827") {
                 const gay_embed = new Discord.RichEmbed()
                     .setColor("#F24D4A")
-                    .setAuthor("♥ – VCS", message.author.avatarURL)
+                    .setAuthor("💘MON COEUR EN SUCRE💘 – VCS", message.author.avatarURL)
                     .setDescription(suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
                         .addField("Message de : ", message.author.toString())
-                    .setThumbnail(message.author.avatarUR)
-                    .setFooter("Ilian's Corporation")
+                    .setThumbnail(message.guild.iconURL)
+                    .setFooter("Ilian's Community | IlianBOT - " + version)
                     .setTimestamp()
                 message.delete()
                 return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(gay_embed));
@@ -658,8 +658,8 @@ bot.on("message", async function(message) {
                     .setDescription(suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
                         .addField("Message de : ", message.author.toString())
-                    .setThumbnail(message.author.avatarUR)
-                    .setFooter("Ilian's Corporation")
+                    .setThumbnail(message.guild.iconURL)
+                    .setFooter("Ilian's Community | IlianBOT - " + version)
                     .setTimestamp()
                     .setTimestamp()
                 message.delete()
@@ -763,24 +763,19 @@ bot.on("message", async function(message) {
                 .setThumbnail(message.guild.iconURL)
         break;        
         
-  /*      case "majinfo":
+      /*  case "majinfo":
            if (message.author.id === "193092758267887616") {
                 var maj_embed = new Discord.RichEmbed()
                 .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("Modification du VCS,", "**Le vcs a complétement été refais.**")
-                    .addField("Optimisation du code,", "**Le code a été optimiser de A à Z !**")
-                    .addField("Ajout de commande,", "**Quelque commande on fais leur apparitions !**")
-                    .addField("Bug Corriger,", "**Les commandes d'administration on complétement été corriger !**")
-                    .addField("Modification des Embed,", "**La plupart des embed on été modifié !**")
-                    .addField("A venir !", "**Bientôt, vous pourrez lire des radio avec le bot, le prefix sera changer, un système de warn sera disponible, un système d'économie serai aussi disponible ainsi que la possibilité de changer le langage/role/salon du bot.**")
+                    .addField("VCS Update,", "**Le vcs a subbit une petite mise à jour.**")
                 .setColor("#04B404")
                 .setFooter(version)
                 .setThumbnail(message.author.avatarURL)
             bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
             message.delete()
             }
-        break;
-*/
+        break; */
+
    /*     case "changeprefix":
             if(!prefixes[message.guild.id]){
                 prefixes[message.guild.id] = {
