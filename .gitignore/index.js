@@ -638,10 +638,10 @@ bot.on("message", async function(message) {
                 message.delete()
                 return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(fondateur_embed));
             } 
-            if (message.author.id === "359749840810278913" && "358606040092246016") {
+            if (message.author.id === "274240989944610827") {
                 const gay_embed = new Discord.RichEmbed()
                     .setColor("#F24D4A")
-                    .setAuthor("GAY – VCS", message.author.avatarURL)
+                    .setAuthor("♥ – VCS", message.author.avatarURL)
                     .setDescription(suffix)
                         .addField("Provenance du message :", "``" + message.guild.name + "``", true)
                         .addField("Message de : ", message.author.toString())
