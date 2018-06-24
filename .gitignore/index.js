@@ -650,7 +650,7 @@ bot.on("message", async function(message) {
                 message.delete()
                 return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(love_embed));
             } 
-            if (message.author.id === "322000779139350538") {
+      /*      if (message.author.id === "322000779139350538") {
                 const ban_embed = new Discord.RichEmbed()
                     .setColor("#2A00FF")
                     .setAuthor("Bannie – VCS", message.guild.iconURL)
@@ -660,7 +660,7 @@ bot.on("message", async function(message) {
                     .setTimestamp()
                 message.delete()
                 return bot.channels.send(ban_embed);
-            } 
+            } */
             {
                 const vcs_embed = new Discord.RichEmbed()
                     .setColor("#2A00FF")
