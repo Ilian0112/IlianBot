@@ -603,7 +603,6 @@ bot.on("message", async function(message) {
             var load4_embed = new Discord.RichEmbed()
                 .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")    
             let startTime = Date.now();
-            message.channel.send(ping_embed).then(message => message.edit(botinfo_embed));
             var botinfo_embed = new Discord.RichEmbed()
                 .setColor('#04B404')
                 .setTitle('Mes informations :')
@@ -752,11 +751,11 @@ bot.on("message", async function(message) {
                 .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")       
             var servinfo_embed = new Discord.RichEmbed()
                 .setAuthor("Information du Serveur", message.author.avatarURL)
-                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "`.", true)
+                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "``.", true)
                     .addField("ServeurID :", "L'ID du serveur est : ``" + message.guild.id + "``.", true)
                     .addField("Création du Serveur", "Le serveur à été crée le : ``" + message.guild.createdAt + "``.", true)
                     .addField("Fondateur :", "Le fondateur du serveur est : " + message.guild.owner + ".", true)
-                    .addField("FondateurID :", "L'ID du Fondteur est : ``" + message.guild.ownerID + "``.", true)
+                    .addField("FondateurID :", "L'ID du Fondateur est : ``" + message.guild.ownerID + "``.", true)
                     .addField("Membres :", "Nous sommes actuellement ``" + message.guild.memberCount  + " membres`` au total.", true)
                 .setColor("#FF0000")
                 .setFooter(foother)
