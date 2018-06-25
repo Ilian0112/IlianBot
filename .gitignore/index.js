@@ -6,7 +6,7 @@ const fs = require("fs");
 
 var client = new Discord.Client();
 
-var version = "V.1.2.5"
+var version = "V.1.2.6"
 
 var bot = new Discord.Client();
 
@@ -99,6 +99,8 @@ bot.on("message", async function(message) {
     var roleMute = member.guild.roles.find("name", "Mute")
 
     var foother = "Demande de @" + message.author.username + "#" + message.author.discriminator + " ! | IlianBOT - " + version
+
+    var footheren = "Request by @" + message.author.username + "#" + message.author.discriminator + " ! | IlianBOT - " + version
     
     var modlog = member.guild.channels.find("name", "🤖bot-logs🤖")
     
@@ -206,55 +208,115 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             member.guild.channels.find("name", "🤖bot-logs🤖").send(mute_embed);
         break;
-        
+
         case "shelp":
-            if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            var start_embed = new Discord.RichEmbed()
-                .setTitle("🛠Menu d'aide🛠 !")
-                .setDescription("**Pour naviguer dans le menu d'aide du staff, utilisez les réactions si-dessous.**")
-                .setColor("#36393E")
-                .setFooter(foother)
-            var shelp1_embed = new Discord.RichEmbed()
-                .setTitle("Commande qui demande au moins le modo ( sauf pour le kick )")
+        if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
+        message.delete()
+        var language_embed = new Discord.RichEmbed()
+            .setTitle("🛠Sélecteur de langue/Language selector🛠 !")
+            .setColor("#36393E")
+            .setFooter(foother + "/" + footheren)
+        var startfr_embed = new Discord.RichEmbed()
+            .setTitle("🛠Menu d'aide🛠 !")
+            .setDescription("**Pour naviguer dans le menu d'aide du staff, utilisez les réactions si-dessous.**")
+            .setColor("#36393E")
+            .setFooter(foother)
+        var shelp1fr_embed = new Discord.RichEmbed()
+            .setTitle("Commande qui demande au moins le modo ( sauf pour le kick )")
+            .setColor("#cc0000")
+                .addField(PREFIX + "purge", "Cette commande permet de supprimé des messages beaucoup plus rapidement ! Pour l'utiliser, faites " + PREFIX + "purge (nombredemessages)")
+                .addField(PREFIX + "mute", "Cette commande permet de muté un utilisateur pendant un certain temps. Pour l'utiliser, faites " + PREFIX + "mute @(utilisateur) + (raison)")
+                .addField(PREFIX + "unmute", "Cette commande permet d'unmute un utilisateur. Pour l'utiliser, faites " + PREFIX + "unmute @(utilisateur)")
+            .setFooter("Page 1/3 | " + foother)
+        var shelp2fr_embed = new Discord.RichEmbed()
+            .setTitle("Commande d'annonce ( Permission requise : kick )")
                 .setColor("#cc0000")
-                    .addField(PREFIX + "purge", "Cette commande permet de supprimé des messages beaucoup plus rapidement ! Pour l'utiliser, faites " + PREFIX + "purge (nombredemessages)")
-                    .addField(PREFIX + "mute", "Cette commande permet de muté un utilisateur pendant un certain temps. Pour l'utiliser, faites " + PREFIX + "mute @(utilisateur) + (raison)")
-                    .addField(PREFIX + "unmute", "Cette commande permet d'unmute un utilisateur. Pour l'utiliser, faites " + PREFIX + "unmute @(utilisateur)")
-                .setFooter("Page 1/3 | " + foother)
-            var shelp2_embed = new Discord.RichEmbed()
-                .setTitle("Commande d'annonce ( Permission requise : kick )")
-                .setColor("#cc0000")
-                    .addField(PREFIX + "annonce", "Cette commande permet de faire une annonce avec une embed. **(** __*sans mention everyone*__ **)** l'annonce ce ferra dans le channel ``#annonce``")
-                    .addField(PREFIX + "annonce@", "Cette commande permet de faire une annonce avec une embed. **(** __*avec mention everyone*__ **)** l'annonce ce ferra dans le channel ``#annonce``")
+                .addField(PREFIX + "annonce", "Cette commande permet de faire une annonce avec une embed. **(** __*sans mention everyone*__ **)** l'annonce ce ferra dans le channel ``#annonce``")
+                .addField(PREFIX + "annonce@", "Cette commande permet de faire une annonce avec une embed. **(** __*avec mention everyone*__ **)** l'annonce ce ferra dans le channel ``#annonce``")
             .setFooter("Page 2/3 | " + foother)                
-            var shelp3_embed = new Discord.RichEmbed()
-                .setTitle("Commande qui demande au moins l'admin ( sauf pour le kick )")
-                .setColor("#cc0000")
-                    .addField(PREFIX + "kick", "Cette commande permet de kick un utilisateur ! Pour l'utiliser, faites " + PREFIX + "kick @(utilisateur) + (raison)")
-                    .addField(PREFIX + "ban", "Cette commande permet de bannir un utilisateur ! Pour l'utiliser, faites " + PREFIX + "ban @(utilisateur) + (raison)")
-                    .addField(PREFIX + "unkick", "Cette commande permet de unkick un utilisateur ! Pour l'utiliser, faites " + PREFIX + "unkick @(utilisateur)")
-                    .addField(PREFIX + "unban", "Cette commande permet de unban un utilisateur ! Pour l'utiliser, faites " + PREFIX + "unban @(utilisateur)")
-                    .addField(PREFIX + "hinstall", "Cette commande permet de voir le Pannel d'Installation.")
+        var shelp3fr_embed = new Discord.RichEmbed()
+            .setTitle("Commande qui demande au moins l'admin ( sauf pour le kick )")
+            .setColor("#cc0000")
+                .addField(PREFIX + "kick", "Cette commande permet de kick un utilisateur ! Pour l'utiliser, faites " + PREFIX + "kick @(utilisateur) + (raison)")
+                .addField(PREFIX + "ban", "Cette commande permet de bannir un utilisateur ! Pour l'utiliser, faites " + PREFIX + "ban @(utilisateur) + (raison)")
+                .addField(PREFIX + "unkick", "Cette commande permet de unkick un utilisateur ! Pour l'utiliser, faites " + PREFIX + "unkick @(utilisateur)")
+                .addField(PREFIX + "unban", "Cette commande permet de unban un utilisateur ! Pour l'utiliser, faites " + PREFIX + "unban @(utilisateur)")
+                .addField(PREFIX + "hinstall", "Cette commande permet de voir le Panel d'Installation.")
             .setFooter("Page 3/3 | " + foother)
-            const shelpmessage = await message.channel.send(start_embed);
-            await shelpmessage.react("1⃣");
-            await shelpmessage.react("2⃣");
-            await shelpmessage.react("3⃣");
-            const rpanierr = shelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
-            rpanierr.on('collect', async(reaction) => {
+        var starten_embed = new Discord.RichEmbed()
+            .setTitle("🛠🇬🇧Help menu🛠 !")
+            .setDescription("**To navigate the help menu of the staff, use the reactions below.**")
+            .setColor("#36393E")
+            .setFooter(footheren)
+        var shelp1en_embed = new Discord.RichEmbed()
+            .setTitle("Command that requires at least the modo (except for the kick)")
+            .setColor("#cc0000")
+                .addField(PREFIX + "purge", "This command allows you to delete messages much faster! To use it, do " + PREFIX + "purge (number of messages)")
+                .addField(PREFIX + "mute", "This command allows to mute a user for a certain time. To use it, do " + PREFIX + "mute @(user) + (reason)")
+                .addField(PREFIX + "unmute", "This command allows to unmute a user. To use it, do " + PREFIX + "unmute @(user)")
+          .setFooter("Page 1/3 | " + footheren)
+        var shelp2en_embed = new Discord.RichEmbed()
+            .setTitle("Annoucement command (Permission required: kick)")
+            .setColor("#cc0000")
+                .addField(PREFIX + "annonce", "This command allows to make an announcement with an embed. **(** __*without mention everyone*__ **)** the announcement will be in the channel ``#annonce``")
+                .addField(PREFIX + "annonce@", "This command allows to make an announcement with an embed. **(** __*with mention everyone*__ **)** the announcement will be in the channel ``#annonce``")
+            .setFooter("Page 2/3 | " + footheren)                
+        var shelp3en_embed = new Discord.RichEmbed()
+            .setTitle("Command that requires at least the admin (except for the kick)")
+            .setColor("#cc0000")
+                .addField(PREFIX + "kick", "This command is used to kick a user ! To use it, do " + PREFIX + "kick @(user) + (reason)")
+                .addField(PREFIX + "ban", "This command is used to ban a user ! To use it, do " + PREFIX + "ban @(user) + (reason)")
+                .addField(PREFIX + "unkick", "This command is used to unkick a user ! To use it, do " + PREFIX + "unkick @(user)")
+                .addField(PREFIX + "unban", "This command is used to unban a user ! To use it, do " + PREFIX + "unban @(user)")
+                .addField(PREFIX + "hinstall", "This command allows you to see the Installation Panel.")
+            .setFooter("Page 3/3 | " + footheren)
+        const srhelpmessage = await message.channel.send(language_embed);
+        await srhelpmessage.react("🇫🇷");
+        await srhelpmessage.react("🇬🇧");
+        const repanierr = srhelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+        repanierr.on('collect', async(reaction) => {
+        if (reaction.emoji.name === "🇫🇷") {
+        srhelpmessage.edit(startfr_embed);
+        srhelpmessage.clearReactions();
+        await srhelpmessage.react("1⃣");
+        await srhelpmessage.react("2⃣");
+        await srhelpmessage.react("3⃣");
+        const theri = srhelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+        theri.on('collect', async(reaction) => {
             if (reaction.emoji.name === "1⃣") {
-                shelpmessage.edit(shelp1_embed);
+                srhelpmessage.edit(shelp1fr_embed);
             }
             if (reaction.emoji.name === "2⃣") {
-                shelpmessage.edit(shelp2_embed);
+                srhelpmessage.edit(shelp2fr_embed);
             }
             if (reaction.emoji.name === "3⃣") {
-                shelpmessage.edit(shelp3_embed);
+                srhelpmessage.edit(shelp3fr_embed);
             }
             await reaction.remove(message.author.id);
             })
-            console.log("AIDE STAFF " + message.author.username + " !")
-        break;    
+            }
+            if (reaction.emoji.name === "🇬🇧") {
+                srhelpmessage.edit(starten_embed);
+                srhelpmessage.clearReactions();
+                await srhelpmessage.react("1⃣");
+                await srhelpmessage.react("2⃣");
+                await srhelpmessage.react("3⃣");
+                const theri = srhelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                theri.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "1⃣") {
+                    srhelpmessage.edit(shelp1en_embed);
+                }
+                if (reaction.emoji.name === "2⃣") {
+                    srhelpmessage.edit(shelp2en_embed);
+                }
+                if (reaction.emoji.name === "3⃣") {
+                    srhelpmessage.edit(shelp3en_embed);
+                }
+                await reaction.remove(message.author.id);
+                })
+            }
+        })
+        break;
 
         case "hinstall":
             if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
@@ -650,10 +712,10 @@ bot.on("message", async function(message) {
                 message.delete()
                 return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(love_embed));
             } 
-      /*      if (message.author.id === "322000779139350538") {
+         /*   if (message.author.id === "") {
                 const ban_embed = new Discord.RichEmbed()
                     .setColor("#2A00FF")
-                    .setAuthor("Bannie – VCS", message.guild.iconURL)
+                    .setAuthor("Banni(e) – VCS", message.guild.iconURL)
                     .setDescription("Nous somme désolé mais vous avez été bannie du vcs.")
                     .setThumbnail(message.author.avatarURL)
                     .setFooter("Ilian's Community | IlianBOT - " + version)
@@ -772,11 +834,11 @@ bot.on("message", async function(message) {
                 .setThumbnail(message.guild.iconURL)
         break;        
         
-      /*  case "majinfo":
+ /*       case "majinfo":
            if (message.author.id === "193092758267887616") {
                 var maj_embed = new Discord.RichEmbed()
                 .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("VCS Update,", "**Le vcs a subbit une autre mise à jour au niveau du design.**")
+                    .addField("Shelp Update,", "**La commande shelp a été traduite./The shelp command has been translated.**")
                 .setColor("#00FF6F")
                 .setFooter(version)
                 .setThumbnail(message.author.avatarURL)
