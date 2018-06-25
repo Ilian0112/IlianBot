@@ -213,29 +213,29 @@ bot.on("message", async function(message) {
         if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
         message.delete()
         var language_embed = new Discord.RichEmbed()
-            .setTitle("🛠Sélecteur de langue/Language selector🛠 !")
+            .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
             .setColor("#36393E")
             .setFooter(foother + "/" + footheren)
         var startfr_embed = new Discord.RichEmbed()
-            .setTitle("🛠Menu d'aide🛠 !")
+            .setTitle("🛠🇫🇷Menu d'aide🇫🇷🛠 !")
             .setDescription("**Pour naviguer dans le menu d'aide du staff, utilisez les réactions si-dessous.**")
             .setColor("#36393E")
             .setFooter(foother)
         var shelp1fr_embed = new Discord.RichEmbed()
-            .setTitle("Commande qui demande au moins le modo ( sauf pour le kick )")
+            .setTitle("🇫🇷Commande qui demande au moins le modo ( sauf pour le kick )🇫🇷")
             .setColor("#cc0000")
                 .addField(PREFIX + "purge", "Cette commande permet de supprimé des messages beaucoup plus rapidement ! Pour l'utiliser, faites " + PREFIX + "purge (nombredemessages)")
                 .addField(PREFIX + "mute", "Cette commande permet de muté un utilisateur pendant un certain temps. Pour l'utiliser, faites " + PREFIX + "mute @(utilisateur) + (raison)")
                 .addField(PREFIX + "unmute", "Cette commande permet d'unmute un utilisateur. Pour l'utiliser, faites " + PREFIX + "unmute @(utilisateur)")
             .setFooter("Page 1/3 | " + foother)
         var shelp2fr_embed = new Discord.RichEmbed()
-            .setTitle("Commande d'annonce ( Permission requise : kick )")
+            .setTitle("🇫🇷Commande d'annonce ( Permission requise : kick )🇫🇷")
                 .setColor("#cc0000")
                 .addField(PREFIX + "annonce", "Cette commande permet de faire une annonce avec une embed. **(** __*sans mention everyone*__ **)** l'annonce ce ferra dans le channel ``#annonce``")
                 .addField(PREFIX + "annonce@", "Cette commande permet de faire une annonce avec une embed. **(** __*avec mention everyone*__ **)** l'annonce ce ferra dans le channel ``#annonce``")
             .setFooter("Page 2/3 | " + foother)                
         var shelp3fr_embed = new Discord.RichEmbed()
-            .setTitle("Commande qui demande au moins l'admin ( sauf pour le kick )")
+            .setTitle("🇫🇷Commande qui demande au moins l'admin ( sauf pour le kick )🇫🇷")
             .setColor("#cc0000")
                 .addField(PREFIX + "kick", "Cette commande permet de kick un utilisateur ! Pour l'utiliser, faites " + PREFIX + "kick @(utilisateur) + (raison)")
                 .addField(PREFIX + "ban", "Cette commande permet de bannir un utilisateur ! Pour l'utiliser, faites " + PREFIX + "ban @(utilisateur) + (raison)")
@@ -244,25 +244,25 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "hinstall", "Cette commande permet de voir le Panel d'Installation.")
             .setFooter("Page 3/3 | " + foother)
         var starten_embed = new Discord.RichEmbed()
-            .setTitle("🛠🇬🇧Help menu🛠 !")
+            .setTitle("🛠🇬🇧Help menu🇬🇧🛠 !")
             .setDescription("**To navigate the help menu of the staff, use the reactions below.**")
             .setColor("#36393E")
             .setFooter(footheren)
         var shelp1en_embed = new Discord.RichEmbed()
-            .setTitle("Command that requires at least the modo (except for the kick)")
+            .setTitle("🇬🇧Command that requires at least the modo (except for the kick)🇬🇧")
             .setColor("#cc0000")
                 .addField(PREFIX + "purge", "This command allows you to delete messages much faster! To use it, do " + PREFIX + "purge (number of messages)")
                 .addField(PREFIX + "mute", "This command allows to mute a user for a certain time. To use it, do " + PREFIX + "mute @(user) + (reason)")
                 .addField(PREFIX + "unmute", "This command allows to unmute a user. To use it, do " + PREFIX + "unmute @(user)")
           .setFooter("Page 1/3 | " + footheren)
         var shelp2en_embed = new Discord.RichEmbed()
-            .setTitle("Annoucement command (Permission required: kick)")
+            .setTitle("🇬🇧Annoucement command (Permission required: kick)🇬🇧")
             .setColor("#cc0000")
                 .addField(PREFIX + "annonce", "This command allows to make an announcement with an embed. **(** __*without mention everyone*__ **)** the announcement will be in the channel ``#annonce``")
                 .addField(PREFIX + "annonce@", "This command allows to make an announcement with an embed. **(** __*with mention everyone*__ **)** the announcement will be in the channel ``#annonce``")
             .setFooter("Page 2/3 | " + footheren)                
         var shelp3en_embed = new Discord.RichEmbed()
-            .setTitle("Command that requires at least the admin (except for the kick)")
+            .setTitle("🇬🇧Command that requires at least the admin (except for the kick)🇬🇧")
             .setColor("#cc0000")
                 .addField(PREFIX + "kick", "This command is used to kick a user ! To use it, do " + PREFIX + "kick @(user) + (reason)")
                 .addField(PREFIX + "ban", "This command is used to ban a user ! To use it, do " + PREFIX + "ban @(user) + (reason)")
@@ -301,8 +301,8 @@ bot.on("message", async function(message) {
                 await srhelpmessage.react("1⃣");
                 await srhelpmessage.react("2⃣");
                 await srhelpmessage.react("3⃣");
-                const theri = srhelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
-                theri.on('collect', async(reaction) => {
+                const theriz = srhelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                theriz.on('collect', async(reaction) => {
                 if (reaction.emoji.name === "1⃣") {
                     srhelpmessage.edit(shelp1en_embed);
                 }
@@ -320,67 +320,149 @@ bot.on("message", async function(message) {
 
         case "hinstall":
             if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-                var install_embed = new Discord.RichEmbed()
-                    .addField(PREFIX + "administration", "Cette commande permet de crée les salon & don j'ai besoin pour l'administration.")
-                    .addField(PREFIX + "log", "Cette commande permet de crée le salon des logs.")
-                    .addField(PREFIX + "install", "Cette commande permet de crée tout les salons & rôles don j'ai besoin.")
+            var language_embed = new Discord.RichEmbed()
+                .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
+                .setColor("#36393E")
+                .setFooter(foother + "/" + footheren)
+            var installfr_embed = new Discord.RichEmbed()
+                    .addField(PREFIX + "administration", "**Cette commande permet de** __**créer les salon et rôles**__ **dont j'ai besoin pour l'administration.**.")
+                    .addField(PREFIX + "log", "**Cette commande permet de** __**créer le salon des logs**__.")
+                    .addField(PREFIX + "install", "**Cette commande permet de** __**créer tout les salons et rôles**__ **dont j'ai besoin**.")
+                .setColor("#cc0000")
+                .setAuthor("Panel d'Installation")
+                .setFooter(foother)
+                .setTimestamp()
+            var installen_embed = new Discord.RichEmbed()
+                    .addField(PREFIX + "administration", "This command __**creates the channels and roles**__ **needed for administration**.")
+                    .addField(PREFIX + "log", "**This command** __**creates the log channel**__.")
+                    .addField(PREFIX + "install", "**This command** __**creates all the rooms and roles**__ **needed**.")
                 .setColor("#cc0000")
                 .setAuthor("Panel d'Installation")
                 .setTimestamp()
+                .setFooter(footheren)
             message.delete()
-            message.channel.send(message.author.toString() + " **Je t'ai envoye un menu d'aide en MP, verifie qu'ils sont actives en provenance des membres du serveur.**")
-            member.createDM().then(channel => {
-                return channel.send(install_embed)
-            }).catch(console.error)
-            console.log(PREFIX +"hinstall par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "hinstall `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-        break;
-
-        case "help":
-            var start_embed = new Discord.RichEmbed()
-                .setTitle("🛠Menu d'aide🛠 !")
-                .setDescription("**Pour naviguer dans le menu d'aide, utilisez les réactions si-dessous.**")
-                .setColor("#36393E")
-                .setFooter(foother)
-            var help1_embed = new Discord.RichEmbed()
-                .setTitle("🎵Musique🎵")
-                .setColor("#0000ff")
-                    .addField(PREFIX + "play", "**Jouer une musique** !  Pour l'utiliser, faites *" + PREFIX + "play (lien youtube)* !")
-                    .addField(PREFIX + "skip", "**Sauter une musique**  Pour l'utiliser, faite *" + PREFIX + "skip* !")
-                    .addField(PREFIX + "stop", "**Arreter la musique**  Pour l'utiliser, faites *" + PREFIX + "stop* !")
-                .setFooter("Page 1/3 | " + foother)
-            var help2_embed = new Discord.RichEmbed()
-                .setTitle("💩Autre💩")
-                .setColor("#0000ff")
-                    .addField(PREFIX + "botinfo", "Grâce à cette commande, tu pourras savoir mes info !") 
-                    .addField(PREFIX + "reseau", "Vous donne mes réseaux sociaux !")
-                    .addField(PREFIX + "traductionhelp", "Pour affichier l'aide des __**traductions**__ !")
-                    .addField(PREFIX + "servinfo", "Grâce à cette commande, tu pourras savoir les __**informations du serveur**__ !")
-                    .addField(PREFIX + "google", "Commande pas trop utile mais tu peut faire des recherche google. Pour l'utiliser, faites " + PREFIX + "google (recherche) !")
-                .setFooter("Page 2/3 | " + foother)    
-            var help3_embed = new Discord.RichEmbed()
-                .setTitle("⚙Administration🛠")
-                .setColor("#cc0000")
-                    .addField(PREFIX + "shelp", "❌**Afficher les commandes du staff. Mais seule ceux qui ont la perm de kick pourrons y accèder. **❌")
-                .setFooter("Page 3/3 | " + foother)
-            const helpmessage = await message.channel.send(start_embed);
-            await helpmessage.react("1⃣");
-            await helpmessage.react("2⃣");
-            await helpmessage.react("3⃣");
-            const ranier = helpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
-            ranier.on('collect', async(reaction) => {
-                if (reaction.emoji.name === "1⃣") {
-                    helpmessage.edit(help1_embed);
+            const hinstall = await message.channel.send(language_embed);
+            await hinstall.react("🇫🇷");
+            await hinstall.react("🇬🇧");
+            const hinstallr = hinstall.createReactionCollector((reaction, user) => user.id === message.author.id);
+            hinstallr.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    hinstall.edit(installfr_embed);
                 }
-                if (reaction.emoji.name === "2⃣") {
-                    helpmessage.edit(help2_embed);
-                }
-                if (reaction.emoji.name === "3⃣") {
-                    helpmessage.edit(help3_embed)
+                if (reaction.emoji.name === "🇬🇧") {
+                    hinstall.edit(installen_embed);
                 }
                 await reaction.remove(message.author.id);
             })
-        break;            
+            console.log(PREFIX +"hinstall par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "hinstall `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+        break;           
+
+        case "help":
+        message.delete()
+        var language_embed = new Discord.RichEmbed()
+            .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
+            .setColor("#36393E")
+            .setFooter(foother + "/" + footheren)
+        var startfr_embed = new Discord.RichEmbed()
+            .setTitle("🛠🇫🇷Menu d'aide🇫🇷🛠 !")
+                .addField("Si tu a un problème avec les réactions ( qui sont toute enlever ) ajoute les toi même ! ( :one: :two: :three: )", "**Pour naviguer dans le menu d'aide, utilisez les réactions si-dessous.**")
+            .setColor("#36393E")
+            .setFooter(foother)
+        var help1fr_embed = new Discord.RichEmbed()
+            .setTitle("🇫🇷🎵Musique🎵🇫🇷")
+            .setColor("#0000ff")
+                .addField(PREFIX + "play", "**Jouer une musique** !  Pour l'utiliser, faites *" + PREFIX + "play (lien youtube)* !")
+                .addField(PREFIX + "skip", "**Sauter une musique**  Pour l'utiliser, faite *" + PREFIX + "skip* !")
+                .addField(PREFIX + "stop", "**Arreter la musique**  Pour l'utiliser, faites *" + PREFIX + "stop* !")
+            .setFooter("Page 1/3 | " + foother)
+        var help2fr_embed = new Discord.RichEmbed()
+            .setTitle("🇫🇷💩Autre💩🇫🇷")
+            .setColor("#0000ff")
+                .addField(PREFIX + "botinfo", "**Grâce à cette commande, tu pourras savoir** __**mes info**__ !") 
+                .addField(PREFIX + "reseau", "**Avec cette commande tu pourras voir les __**réseau sociaux**__ **de mon créateur** !")
+                .addField(PREFIX + "traductionhelp", "**Pour affichier l'aide des** __**traductions**__ !")
+                .addField(PREFIX + "servinfo", "**Grâce à cette commande, tu pourras savoir les** __**informations du serveur**__ !")
+                .addField(PREFIX + "google", "**Avec cette commande, tu pourras faire des** __**recherches google**__. **Pour l'utiliser, faites** *" + PREFIX + "google (recherche)* !")
+            .setFooter("Page 2/3 | " + foother)                
+        var help3fr_embed = new Discord.RichEmbed()
+                .setTitle("🇫🇷⚙Administration🛠🇫🇷")
+                .setColor("#cc0000")
+                    .addField(PREFIX + "shelp", "❌__**Afficher les commandes du staff. Mais seule ceux qui ont la perm de kick pourrons y accèder**__.❌")
+            .setFooter("Page 3/3 | " + foother)
+        var starten_embed = new Discord.RichEmbed()
+            .setTitle("🛠🇬🇧Help menu🇬🇧🛠 !")
+            .addField("If you have a problem with the reactions (which are all removed) add the same yourself ! ( :one: :two: :three: )", "**To navigate the help menu, use the reactions below.**")
+            .setColor("#36393E")
+            .setFooter(footheren)
+        var help1en_embed = new Discord.RichEmbed()
+            .setTitle("🇬🇧🎵Music🎵🇬🇧")
+            .setColor("#0000ff")
+                .addField(PREFIX + "play", "**Playing a music** !  To use it, do *" + PREFIX + "play (youtube link)* !")
+                .addField(PREFIX + "skip", "**Skip a music** ! To use it, do *" + PREFIX + "skip* !")
+                .addField(PREFIX + "stop", "**Stop the music** ! To use it, do *" + PREFIX + "stop* !")
+          .setFooter("Page 1/3 | " + footheren)
+        var help2en_embed = new Discord.RichEmbed()
+            .setTitle("🇬🇧💩Other💩🇬🇧")
+            .setColor("#0000ff")
+                .addField(PREFIX + "botinfo", "**With this command, you will be able to know** __**my information**__ !") 
+                .addField(PREFIX + "reseau", "**With this command you will be able to see the** __**social networks**__ **of my creator** !")
+                .addField(PREFIX + "traductionhelp", "**With this command you will be able to see the __**translation panel**__ !")
+                .addField(PREFIX + "servinfo", "**With this command, you will be able to know the** __**information of the server**__ !")
+                .addField(PREFIX + "google", "**With this command, you will be able to do** __**google searches**__. **To use it, do** *" + PREFIX + "google (searche)* !")
+            .setFooter("Page 2/3 | " + footheren)                
+        var help3en_embed = new Discord.RichEmbed()
+            .setTitle("🇬🇧⚙Administration🛠🇬🇧")
+            .setColor("#cc0000")
+                .addField(PREFIX + "shelp", "❌__**View the commandes of the staff. But only those who have the kick perm can access it**__.❌")
+            .setFooter("Page 3/3 | " + footheren)
+        const helpmessage = await message.channel.send(language_embed);
+        await helpmessage.react("🇫🇷");
+        await helpmessage.react("🇬🇧");
+        const loir = helpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+        loir.on('collect', async(reaction) => {
+        if (reaction.emoji.name === "🇫🇷") {
+        helpmessage.edit(startfr_embed);
+        helpmessage.clearReactions();
+        await helpmessage.react("1⃣");
+        await helpmessage.react("2⃣");
+        await helpmessage.react("3⃣");
+        const therri = helpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+        therri.on('collect', async(reaction) => {
+            if (reaction.emoji.name === "1⃣") {
+                helpmessage.edit(help1fr_embed);
+            }
+            if (reaction.emoji.name === "2⃣") {
+                helpmessage.edit(help2fr_embed);
+            }
+            if (reaction.emoji.name === "3⃣") {
+                helpmessage.edit(help3fr_embed);
+            }
+            await reaction.remove(message.author.id);
+            })
+            }
+            if (reaction.emoji.name === "🇬🇧") {
+                helpmessage.edit(starten_embed);
+                helpmessage.clearReactions();
+                await helpmessage.react("1⃣");
+                await helpmessage.react("2⃣");
+                await helpmessage.react("3⃣");
+                const therir = helpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                therir.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "1⃣") {
+                    helpmessage.edit(help1en_embed);
+                }
+                if (reaction.emoji.name === "2⃣") {
+                    helpmessage.edit(help2en_embed);
+                }
+                if (reaction.emoji.name === "3⃣") {
+                    helpmessage.edit(help3en_embed);
+                }
+                await reaction.remove(message.author.id);
+                })
+            }
+        })
+        break;
 
         case "kick":
             if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu n'as pas la permission d'exécuter la commande. :x:");
@@ -838,7 +920,9 @@ bot.on("message", async function(message) {
            if (message.author.id === "193092758267887616") {
                 var maj_embed = new Discord.RichEmbed()
                 .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("Shelp Update,", "**La commande shelp a été traduite./The shelp command has been translated.**")
+                    .addField("🇫🇷Langage Update🇫🇷,", "**Vous pouvez changer le langage de la plupart des commandes ( avec embed ) en utilisant les réactions (🇫🇷/🇬🇧) **.")
+                    .addField("🇬🇧Language Update🇬🇧,", "**You can change the language of most commands ( with embed ) by using the reactions (🇫🇷/🇬🇧)**.")
+                    .addField("🇪🇸Actualización de idioma🇪🇸,", "**Puede cambiar el idioma de la mayoría de los comandos ( con embed ) al usar las reacciones (🇫🇷/🇬🇧)**.")
                 .setColor("#00FF6F")
                 .setFooter(version)
                 .setThumbnail(message.author.avatarURL)
