@@ -38,7 +38,7 @@ function play(connection, message) {
 }
 
 bot.on("ready", function () {
-    bot.user.setActivity("IlianBOT - " + PREFIX + "help", {
+    bot.user.setActivity("IlianBOT - *help", {
         'type': 'STREAMING',
         'url': "https://www.twitch.tv/supers_fanne"
 }),
