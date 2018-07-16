@@ -6,7 +6,7 @@ const fs = require("fs");
 
 var client = new Discord.Client();
 
-var version = "V.1.2.6"
+var version = "V.1.2.7"
 
 var bot = new Discord.Client();
 
@@ -45,6 +45,50 @@ bot.on("ready", function () {
     bot.user.setUsername("IlianBOT")
     console.log("IlianBOT - Connecté");
 });
+
+bot.on("message", async function (message) {
+    if(message.channel.name !== "vcs-ilianbot") return;
+    if(message.author.id === bot.user.id) return;
+    if(message.author.bot) return;
+    if(message.content.startsWith(" ")) return;
+    if (message.author.id === "193092758267887616") {
+        const fondateur_embed = new Discord.RichEmbed()
+            .setColor("#DB1414")
+            .setAuthor("Fondateur – VCS", message.guild.iconURL)
+            .setDescription(message.content)
+                .addField("Provenance du message :", "``" + message.guild.name + "``", true)
+                .addField("Message de : ", message.author.toString())
+                .setThumbnail(message.author.avatarURL)
+            .setFooter("Ilian's Community | IlianBOT - " + version)
+            .setTimestamp()
+        message.delete()
+        return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(fondateur_embed));
+    } 
+ /*   if (message.author.id === "") {
+        const ban_embed = new Discord.RichEmbed()
+            .setColor("#2A00FF")
+            .setAuthor("Banni(e) – VCS", message.guild.iconURL)
+            .setDescription("Nous somme désolé mais vous avez été bannie du vcs.")
+            .setThumbnail(message.author.avatarURL)
+            .setFooter("Ilian's Community | IlianBOT - " + version)
+            .setTimestamp()
+        message.delete()
+        return bot.channels.send(ban_embed);
+    } */
+    {
+        const vcs_embed = new Discord.RichEmbed()
+            .setColor("#2A00FF")
+            .setAuthor("Utilisateur – VCS", message.guild.iconURL)
+            .setDescription(message.content)
+                .addField("Provenance du message :", "``" + message.guild.name + "``", true)
+                .addField("Message de : ", message.author.toString())
+                .setThumbnail(message.author.avatarURL)
+            .setFooter("Ilian's Community | IlianBOT - " + version)
+            .setTimestamp()
+        message.delete()
+        bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(vcs_embed));
+    }
+})
 
 bot.on('message', function(message) {
        if(message.content === 'Ta mère la grosse pute') { // # cencure
@@ -747,77 +791,21 @@ bot.on("message", async function(message) {
             var load4_embed = new Discord.RichEmbed()
                 .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")    
             let startTime = Date.now();
-            message.channel.send(ping_embed).then(message => message.edit(botinfo_embed));
             var botinfo_embed = new Discord.RichEmbed()
                 .setColor('#04B404')
                 .setTitle('Mes informations :')
                     .addField("Serveurs :", "Je suis sur " + bot.guilds.array().length + " serveurs")
                     .addField("Membres :", "Je voit ``" + bot.users.size + " membres`` au total.")
                     .addField("Version :", "La version de mon système est : ``" + version + "`` !")
+                    .addField("M'inviter", "https://discordapp.com/oauth2/authorize?client_id=446061218063581186&scope=bot&permissions=2146958591")
+                    .addField("Mon Serveur:", "**EN DEV**")
+                    .addField("Mon site :", "https://ilianbot.000webhostapp.com")
                     .addBlankField()
                     .addField('Mon Ping :', ':ping_pong: Pong !')
                     .addField(":clock2: Temps :", `${Date.now() - startTime} millisecondes`, true)
                     .addField(":heartpulse: API Discord :", `${bot.ping} millisecondes`, true)
                 .setTimestamp()
                 .setFooter(foother)
-        break;
-
-        case "vcs":
-            let xoargs = message.content.split(" ").slice(1);
-            let suffix = xoargs.join(' ')
-            var xo02 = message.guild.channels.find('name','vcs-ilianbot');
-            if(!xo02) return message.reply("Le channel vcs-ilianbot est introuvable faites " + PREFIX + "ivcs pour le crée ou " + PREFIX + "install pour installer tout les salons dons j'ai besoin !")
-            if(message.channel.name !== 'vcs-ilianbot') return message.reply("Commande a effectuer dans #vcs-ilianbot")
-            if(!suffix) return message.channel.send("Merci d'écrire un message à envoyé dans la globalité des discord")
-            if (message.author.id === "193092758267887616") {
-                const fondateur_embed = new Discord.RichEmbed()
-                    .setColor("#DB1414")
-                    .setAuthor("Fondateur – VCS", message.guild.iconURL)
-                        .addField("Message de : " + message.author.username + "#" + message.author.discriminator, suffix)
-                        .addField("Provenance du message :", "``" + message.guild.name + "``", true)
-                    .setThumbnail(message.author.avatarURL)
-                    .setFooter("Ilian's Community | IlianBOT - " + version)
-                    .setTimestamp()
-                message.delete()
-                return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(fondateur_embed));
-            } 
-            if (message.author.id === "274240989944610827") {
-                const love_embed = new Discord.RichEmbed()
-                    .setColor("#F24D4A")
-                    .setAuthor("💘MON COEUR EN SUCRE💘 – VCS", message.guild.iconURL)
-                    .setDescription(suffix)
-                        .addField("Provenance du message :", "``" + message.guild.name + "``", true)
-                        .addField("Message de : ", message.author.toString())
-                        .setThumbnail(message.author.avatarURL)
-                    .setFooter("Ilian's Community | IlianBOT - " + version)
-                    .setTimestamp()
-                message.delete()
-                return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(love_embed));
-            } 
-         /*   if (message.author.id === "") {
-                const ban_embed = new Discord.RichEmbed()
-                    .setColor("#2A00FF")
-                    .setAuthor("Banni(e) – VCS", message.guild.iconURL)
-                    .setDescription("Nous somme désolé mais vous avez été bannie du vcs.")
-                    .setThumbnail(message.author.avatarURL)
-                    .setFooter("Ilian's Community | IlianBOT - " + version)
-                    .setTimestamp()
-                message.delete()
-                return bot.channels.send(ban_embed);
-            } */
-            {
-                const vcs_embed = new Discord.RichEmbed()
-                    .setColor("#2A00FF")
-                    .setAuthor("Utilisateur – VCS", message.guild.iconURL)
-                    .setDescription(suffix)
-                        .addField("Provenance du message :", "``" + message.guild.name + "``", true)
-                        .addField("Message de : ", message.author.toString())
-                        .setThumbnail(message.author.avatarURL)
-                    .setFooter("Ilian's Community | IlianBOT - " + version)
-                    .setTimestamp()
-                message.delete()
-                bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(vcs_embed));
-            }
         break;
             
         case "ivcs":
@@ -916,15 +904,15 @@ bot.on("message", async function(message) {
                 .setThumbnail(message.guild.iconURL)
         break;        
         
- /*       case "majinfo":
+       /* case "majinfo":
            if (message.author.id === "193092758267887616") {
                 var maj_embed = new Discord.RichEmbed()
                 .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("🇫🇷Langage Update🇫🇷,", "**Vous pouvez changer le langage de la plupart des commandes ( avec embed ) en utilisant les réactions (🇫🇷/🇬🇧) **.")
-                    .addField("🇬🇧Language Update🇬🇧,", "**You can change the language of most commands ( with embed ) by using the reactions (🇫🇷/🇬🇧)**.")
-                    .addField("🇪🇸Actualización de idioma🇪🇸,", "**Puede cambiar el idioma de la mayoría de los comandos ( con embed ) al usar las reacciones (🇫🇷/🇬🇧)**.")
+                    .addField("🇫🇷 Langage Update,", "**Le vcs a été update, vous n'avez donc plus besoin de mettre la commande pour que le message s'envoie, la commande botinfo aussi été mise à jour, vous pouvez accéder à mon site et m'inviter**.")
+                    .addField("🇬🇧Language Update🇬🇧,", "**The vcs was update, so you do not need to put the command for the message to send, the command botinfo also been updated, you can access my site and invite me**.")
+                    .addField("🇪🇸Actualización de idioma🇪🇸,", "**El vcs se actualizó, por lo que no es necesario que coloque el comando para enviar el mensaje, el comando botinfo también se actualizó, puede acceder a mi sitio y invitarme**.")
                 .setColor("#00FF6F")
-                .setFooter(version)
+                .setFooter("Merce google traduction ! " + version)
                 .setThumbnail(message.author.avatarURL)
             bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
             message.delete()
