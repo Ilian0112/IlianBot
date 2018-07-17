@@ -893,7 +893,7 @@ bot.on("message", async function(message) {
                 .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")       
             var servinfo_embed = new Discord.RichEmbed()
                 .setAuthor("Information du Serveur", message.author.avatarURL)
-                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "`.", true)
+                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "``.", true)
                     .addField("ServeurID :", "L'ID du serveur est : ``" + message.guild.id + "``.", true)
                     .addField("Création du Serveur", "Le serveur à été crée le : ``" + message.guild.createdAt + "``.", true)
                     .addField("Fondateur :", "Le fondateur du serveur est : " + message.guild.owner + ".", true)
