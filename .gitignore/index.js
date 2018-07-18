@@ -6,7 +6,7 @@ const fs = require("fs");
 
 var client = new Discord.Client();
 
-var version = "V.1.2.7"
+var version = "V.1.2.8"
 
 var bot = new Discord.Client();
 
@@ -151,60 +151,224 @@ bot.on("message", async function(message) {
     var user = message.mentions.users.first();
 
     switch (args[0].toLowerCase()) {
-        case "play":
-            if (!args[1]) {
-                message.channel.send(":loudspeaker:[``IlianBOT - Musique``] - **Vous devez mettre un lien**.");   
-                console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-                member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "play `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-                console.log(message.author.username + " à oubliée de mettre un liens")
-                return;
-            }
-            if(!message.member.voiceChannel) {
-                message.channel.send(":loudspeaker:[``IlianBOT - Musique`] - **Vous devez être dans un salon vocal**."); 
-                console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-                member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "play `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-                console.log(message.author.username + " est pas dans un salon vocale.")  
-                return;
-            }
-            
-            if(!servers[message.guild.id]) servers[message.guild.id] = {
-                queue: []
-            };
-            
-            var server = servers[message.guild.id];
-                  message.channel.send(":loudspeaker:[``IlianBOT - Musique``] - **Musique en cour ** : ``" + args[1] + "``");
-            server.queue.push(args[1]);
-            
-            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
-               play(connection, message) 
-            });
+        case "testplay":
+        if (!args[1]) {  
+                var nolink_embedfr = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                    .setDescription("Vous n'avez pas entrez de lien !")
+                    .setColor("#FF0000")
+                    .setFooter(foother)
+                var nolink_embeden = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
+                    .setDescription("You have not entered a link !")
+                    .setColor("#FF0000")
+                    .setFooter(footheren)    
+            const nolinkerror = await message.channel.send(nolink_embedfr);
+            await nolinkerror.react("🇫🇷");
+            await nolinkerror.react("🇬🇧");
+            const nolinkerrorpannier = nolinkerror.createReactionCollector((reaction, user) => user.id === message.author.id);
+            nolinkerrorpannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    nolinkerror.edit(nolink_embedfr);
+                }      
+                if (reaction.emoji.name === "🇬🇧") {
+                    nolinkerror.edit(nolink_embeden);
+                }        
+                await reaction.remove(message.author.id);
+            })
             console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "play `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-        break;    
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "play " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            console.log(message.author.username + " à oubliée de mettre un liens")
+            return;
+        }
+        if(!message.member.voiceChannel) {
+                var noinchannel_embedfr = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                    .setDescription("Vous n'êtes pas dans un salon vocal !")
+                    .setColor("#FF0000")
+                    .setFooter(foother)
+                var noinchannel_embeden = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
+                    .setDescription("ou are not in a vocal channel !")
+                    .setColor("#FF0000")
+                    .setFooter(footheren)    
+            const noinchannelerror = await message.channel.send(noinchannel_embedfr);
+            await noinchannelerror.react("🇫🇷");
+            await noinchannelerror.react("🇬🇧");
+            const noinchannelerrorpannier = noinchannelerror.createReactionCollector((reaction, user) => user.id === message.author.id);
+            noinchannelerrorpannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    noinchannelerror.edit(noinchannel_embedfr);
+                }      
+                if (reaction.emoji.name === "🇬🇧") {
+                    noinchannelerror.edit(noinchannel_embeden);
+                }        
+                await reaction.remove(message.author.id);
+            })
+            console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "play " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
+            return;
+        }
+
+        if(!servers[message.guild.id]) servers[message.guild.id] = {
+            queue: []
+        };
+
+        var server = servers[message.guild.id];
+            var play_embedfr = new Discord.RichEmbed()
+                .setAuthor("Lancement de la musique :", message.author.avatarURL)
+                    .addField("Titre", "[**EN DEV**](" + args[1] + ")")
+                    .addField("Uploader par", "**EN DEV**", true)
+                    .addField("Lancer par", message.author.toString(), true)
+                    .addField("Durée: EN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
+                .setColor("#6495ED")
+                .setFooter(foother)
+            var play_embeden = new Discord.RichEmbed()
+                .setAuthor("Launch of the music :", message.author.avatarURL)
+                    .addField("Title", "[**IN DEV**](" + args[1] + ")")
+                    .addField("Upload by", "**IN DEV**", true)
+                    .addField("Start by", message.author.toString(), true)
+                    .addField("Length: IN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
+                .setColor("#6666ff")
+                .setFooter(footheren)
+            const playreac = await message.channel.send(play_embedfr);
+            await playreac.react("🇫🇷");
+            await playreac.react("🇬🇧");
+            const playreacpannier = playreac.createReactionCollector((reaction, user) => user.id === message.author.id);
+            playreacpannier.on('collect', async(reaction) => {
+            if (reaction.emoji.name === "🇫🇷") {
+                playreac.edit(play_embedfr);
+            }      
+            if (reaction.emoji.name === "🇬🇧") {
+                playreac.edit(play_embeden);
+            }        
+            await reaction.remove(message.author.id);
+            })        
+            server.queue.push(args[1]);
     
-        case "skip":
+            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
+                play(connection, message) 
+            });
+        break;
+    
+        case "testskip":
             if(!message.member.voiceChannel) {
-                message.channel.send(":loudspeaker:[``IlianBOT - Musique``] - **Vous devez être dans un salon vocal**.");   
-                return;
-            }
-            var server = servers[message.guild.id];
-            message.channel.send(":loudspeaker:[``IlianBOT - Musique``] - **Passage à la musique suivante**");
+                var noinchannel_embedfr = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                    .setDescription("Vous n'êtes pas dans un salon vocal !")
+                    .setColor("#FF0000")
+                    .setFooter(foother)
+                var noinchannel_embeden = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
+                    .setDescription("You are not in a vocal channel !")
+                    .setColor("#FF0000")
+                    .setFooter(footheren)    
+            const noinchannelerror = await message.channel.send(noinchannel_embedfr);
+            await noinchannelerror.react("🇫🇷");
+            await noinchannelerror.react("🇬🇧");
+            const noinchannelerrorpannier = noinchannelerror.createReactionCollector((reaction, user) => user.id === message.author.id);
+            noinchannelerrorpannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    noinchannelerror.edit(noinchannel_embedfr);
+                }      
+                if (reaction.emoji.name === "🇬🇧") {
+                    noinchannelerror.edit(noinchannel_embeden);
+                }        
+                await reaction.remove(message.author.id);
+            })
+            console.log(PREFIX +"skip par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "skip `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
+            return;
+        }
+        var server = servers[message.guild.id];
+        var skip_embedfr = new Discord.RichEmbed()
+            .setAuthor("⚠IlianBOT - Musique⚠", message.author.avatarURL)
+            .setDescription("Passage à la musique suivante !")
+            .setColor("#ffd11a")
+            .setFooter(foother)
+        var skip_embeden = new Discord.RichEmbed()
+            .setAuthor("⚠IlianBOT - Music⚠", message.author.avatarURL)
+            .setDescription("Switch to the next music !")
+            .setColor("#b38f00")
+            .setFooter(footheren)    
+        const skiperror = await message.channel.send(skip_embedfr);
+        await skiperror.react("🇫🇷");
+        await skiperror.react("🇬🇧");
+        const skiperrorpannier = skiperror.createReactionCollector((reaction, user) => user.id === message.author.id);
+        skiperrorpannier.on('collect', async(reaction) => {
+        if (reaction.emoji.name === "🇫🇷") {
+            skiperror.edit(skip_embedfr);
+        }      
+        if (reaction.emoji.name === "🇬🇧") {
+            skiperror.edit(skip_embeden);
+        }        
+        await reaction.remove(message.author.id);
+        })
             if(server.dispatcher) server.dispatcher.end();
             console.log(PREFIX +"skip par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "skip `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "skip `` dans le salon " + message.channel + " !\nProvenance du message : ``" + message.guild.name + "``");
         break;  
 
-        case "stop":
+        case "teststop":
             if(!message.member.voiceChannel) {
-                message.channel.send(":warning:[``IlianBOT - Musique``] - **Vous devez être dans un salon vocal**.");   
-                return;
+                var noinchannel_embedfr = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                    .setDescription("Vous n'êtes pas dans un salon vocal !")
+                    .setColor("#FF0000")
+                    .setFooter(foother)
+                var noinchannel_embeden = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
+                    .setDescription("You are not in a vocal channel !")
+                    .setColor("#FF0000")
+                    .setFooter(footheren)    
+            const noinchannelerror = await message.channel.send(noinchannel_embedfr);
+            await noinchannelerror.react("🇫🇷");
+            await noinchannelerror.react("🇬🇧");
+            const noinchannelerrorpannier = noinchannelerror.createReactionCollector((reaction, user) => user.id === message.author.id);
+            noinchannelerrorpannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    noinchannelerror.edit(noinchannel_embedfr);
+                }      
+                if (reaction.emoji.name === "🇬🇧") {
+                    noinchannelerror.edit(noinchannel_embeden);
+                }        
+                await reaction.remove(message.author.id);
+            })
+            console.log(PREFIX +"stop par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "stop `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
+            return;
             }
             const serverQueue = queue.get(message.guild.id);
-            var server = servers[message.guild.id];
-            if (!serverQueue) return message.channel.send(":warning:[``IlianBOT - Musique``] - **Fin de la session de musique.**")
+            if(server.dispatcher) server.dispatcher.end()
             if(!message.guild.voiceConnection) message.member.voiceChannel.leave().then(function(connection) {
                 stop(connection, message) 
-            });
+            }); 
+            var stop_embedfr = new Discord.RichEmbed()
+                .setAuthor("⚠IlianBOT - Musique⚠", message.author.avatarURL)
+                .setDescription("Fin de la sessions de musique !")
+                .setColor("#006633")
+                .setFooter(foother)
+            var stop_embeden = new Discord.RichEmbed()
+                .setAuthor("⚠IlianBOT - Music⚠", message.author.avatarURL)
+                .setDescription("End of the music sessions !")
+                .setColor("#1aff8c")
+                .setFooter(footheren)    
+            const stop = await message.channel.send(stop_embedfr);
+            await stop.react("🇫🇷");
+            await stop.react("🇬🇧");
+            const stoppannier = noinchannelstoperror.createReactionCollector((reaction, user) => user.id === message.author.id);
+            stoppannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    noinchannelerror.edit(stop_embedfr);
+                }      
+                if (reaction.emoji.name === "🇬🇧") {
+                    noinchannelerror.edit(stop_embeden);
+                }        
+                await reaction.remove(message.author.id);
+            })
             console.log(PREFIX +"stop par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
             member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "stop `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break; 
@@ -904,15 +1068,15 @@ bot.on("message", async function(message) {
                 .setThumbnail(message.guild.iconURL)
         break;        
         
-       /* case "majinfo":
+  /*      case "majinfo":
            if (message.author.id === "193092758267887616") {
                 var maj_embed = new Discord.RichEmbed()
                 .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("🇫🇷 Langage Update,", "**Le vcs a été update, vous n'avez donc plus besoin de mettre la commande pour que le message s'envoie, la commande botinfo aussi été mise à jour, vous pouvez accéder à mon site et m'inviter**.")
-                    .addField("🇬🇧Language Update🇬🇧,", "**The vcs was update, so you do not need to put the command for the message to send, the command botinfo also been updated, you can access my site and invite me**.")
-                    .addField("🇪🇸Actualización de idioma🇪🇸,", "**El vcs se actualizó, por lo que no es necesario que coloque el comando para enviar el mensaje, el comando botinfo también se actualizó, puede acceder a mi sitio y invitarme**.")
+                    .addField("🇫🇷Musique Update,", "**La musique est de nouveau fonctionnel avec un nouveau style encore en dévelopement. Seul les liens youtube fonctionne pour le moment et le play-list ne marche pas. Le stop reste encore infonctionnel donc utiliser le skip pour stoper le bot car si le bot n'a plus de musique en file d'attente il se déconnecte du salon vocal**.")
+                    .addField("🇬🇧Music Update🇬🇧,", "**The music is again functional with a new style still in development. Only youtube links work for the moment and the play-list does not work. The stop is still infunctional so use the skip to stop the bot because if the bot no longer has music queued it disconnects from the vocal lounge**.")
+                    .addField("🇪🇸Música de idioma🇪🇸,", "**La música vuelve a funcionar con un nuevo estilo todavía en desarrollo. Solo los enlaces de youtube funcionan por el momento y la lista de reproducción no funciona. La parada sigue siendo infuncional así que use el salto para detener el bot porque si el bot ya no tiene música puesta en cola se desconecta del salón vocal**.")
                 .setColor("#00FF6F")
-                .setFooter("Merce google traduction ! " + version)
+                .setFooter("Google trad comme d'hab ! " + version)
                 .setThumbnail(message.author.avatarURL)
             bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
             message.delete()
