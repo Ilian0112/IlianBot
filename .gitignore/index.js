@@ -66,7 +66,7 @@ bot.on("message", async function (message) {
     } 
     if (message.author.id === "336291226297040908") {
         const monbb_embed = new Discord.RichEmbed()
-            .setColor("#DB1414")
+            .setColor("#FF69B4")
             .setAuthor("❤ ♥Baby♥ ❤ – VCS", message.guild.iconURL)
             .setDescription(message.content)
                 .addField("Provenance du message :", "``" + message.guild.name + "``", true)
@@ -164,7 +164,7 @@ bot.on("message", async function(message) {
     var user = message.mentions.users.first();
 
     switch (args[0].toLowerCase()) {
-        case "testplay":
+        case "play":
         if (!args[1]) {  
                 var nolink_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
@@ -202,7 +202,7 @@ bot.on("message", async function(message) {
                     .setFooter(foother)
                 var noinchannel_embeden = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
-                    .setDescription("ou are not in a vocal channel !")
+                    .setDescription("You are not in a vocal channel !")
                     .setColor("#FF0000")
                     .setFooter(footheren)    
             const noinchannelerror = await message.channel.send(noinchannel_embedfr);
@@ -265,7 +265,7 @@ bot.on("message", async function(message) {
             });
         break;
     
-        case "testskip":
+        case "skip":
             if(!message.member.voiceChannel) {
                 var noinchannel_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
@@ -324,7 +324,7 @@ bot.on("message", async function(message) {
             member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "skip `` dans le salon " + message.channel + " !\nProvenance du message : ``" + message.guild.name + "``");
         break;  
 
-        case "teststop":
+        case "stop":
             if(!message.member.voiceChannel) {
                 var noinchannel_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
