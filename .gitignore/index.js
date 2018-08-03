@@ -6,7 +6,7 @@ const fs = require("fs");
 
 var client = new Discord.Client();
 
-var version = "V.1.2.8"
+var version = "V.1.2.9"
 
 var bot = new Discord.Client();
 
@@ -44,6 +44,11 @@ bot.on("ready", function () {
 }),
     bot.user.setUsername("IlianBOT")
     console.log("IlianBOT - Connecté");
+    var connection_embed = new Discord.RichEmbed()
+    .setTitle("Je suis connecté")
+    .setTimestamp()
+    .setColor("#36393E")
+    bot.channels.findAll("name", "private-cmd").map(channel => channel.send(connection_embed));
 });
 
 bot.on("message", async function (message) {
@@ -151,7 +156,7 @@ bot.on("message", async function(message) {
 
     var rolekick = member.guild.roles.find("name", "Kick")
 
-    var roleJoueur= member.guild.roles.find("name", "Membre")
+    var rolemembre = member.guild.roles.find("name", "Membre")
     
     var roleMute = member.guild.roles.find("name", "Mute")
 
@@ -383,7 +388,7 @@ bot.on("message", async function(message) {
                 await reaction.remove(message.author.id);
             })
             console.log(PREFIX +"stop par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "stop `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "stop `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break; 
 
         case "unmute":
@@ -394,7 +399,7 @@ bot.on("message", async function(message) {
             member.removeRole(roleMute)
             message.channel.send(user.toString() + " a bien été unmute ✅")
             console.log(PREFIX +"unmute par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "unmute " + user.username.toString() + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "unmute " + user.username.toString() + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
       
             var unmute_embed = new Discord.RichEmbed()
                     .addField("Commande :", "UnMute")
@@ -417,7 +422,7 @@ bot.on("message", async function(message) {
             message.channel.send(member.toString() + " a bien été mute. ✅")
             member.addRole(roleMute)
             console.log(PREFIX +"mute par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "mute " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "mute " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
              
             var mute_embed = new Discord.RichEmbed()
                     .addField("Action :", "Mute")
@@ -433,6 +438,8 @@ bot.on("message", async function(message) {
         case "shelp":
         if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
         message.delete()
+        console.log(PREFIX +"shelp par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+        member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "shelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         var language_embed = new Discord.RichEmbed()
             .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
             .setColor("#36393E")
@@ -448,6 +455,7 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "purge", "Cette commande permet de supprimé des messages beaucoup plus rapidement ! Pour l'utiliser, faites " + PREFIX + "purge (nombredemessages)")
                 .addField(PREFIX + "mute", "Cette commande permet de muté un utilisateur pendant un certain temps. Pour l'utiliser, faites " + PREFIX + "mute @(utilisateur) + (raison)")
                 .addField(PREFIX + "unmute", "Cette commande permet d'unmute un utilisateur. Pour l'utiliser, faites " + PREFIX + "unmute @(utilisateur)")
+                .addField(PREFIX + "modehelp", "Cette commande permet d'afficher l'aide pour la modération. ( Vous comprendrez mieux sont fonctionnement )")
             .setFooter("Page 1/3 | " + foother)
         var shelp2fr_embed = new Discord.RichEmbed()
             .setTitle("🇫🇷Commande d'annonce ( Permission requise : kick )🇫🇷")
@@ -462,7 +470,7 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "ban", "Cette commande permet de bannir un utilisateur ! Pour l'utiliser, faites " + PREFIX + "ban @(utilisateur) + (raison)")
                 .addField(PREFIX + "unkick", "Cette commande permet de unkick un utilisateur ! Pour l'utiliser, faites " + PREFIX + "unkick @(utilisateur)")
                 .addField(PREFIX + "unban", "Cette commande permet de unban un utilisateur ! Pour l'utiliser, faites " + PREFIX + "unban @(utilisateur)")
-                .addField(PREFIX + "hinstall", "Cette commande permet de voir le Panel d'Installation.")
+                .addField(PREFIX + "install", "Cette commande permet d'afficher le panel d'installation.")
             .setFooter("Page 3/3 | " + foother)
         var starten_embed = new Discord.RichEmbed()
             .setTitle("🛠🇬🇧Help menu🇬🇧🛠 !")
@@ -475,6 +483,7 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "purge", "This command allows you to delete messages much faster! To use it, do " + PREFIX + "purge (number of messages)")
                 .addField(PREFIX + "mute", "This command allows to mute a user for a certain time. To use it, do " + PREFIX + "mute @(user) + (reason)")
                 .addField(PREFIX + "unmute", "This command allows to unmute a user. To use it, do " + PREFIX + "unmute @(user)")
+                .addField(PREFIX + "modehelp", "This command displays the help for moderation. ( You will understand better are working )")
           .setFooter("Page 1/3 | " + footheren)
         var shelp2en_embed = new Discord.RichEmbed()
             .setTitle("🇬🇧Annoucement command (Permission required: kick)🇬🇧")
@@ -489,7 +498,7 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "ban", "This command is used to ban a user ! To use it, do " + PREFIX + "ban @(user) + (reason)")
                 .addField(PREFIX + "unkick", "This command is used to unkick a user ! To use it, do " + PREFIX + "unkick @(user)")
                 .addField(PREFIX + "unban", "This command is used to unban a user ! To use it, do " + PREFIX + "unban @(user)")
-                .addField(PREFIX + "hinstall", "This command allows you to see the Installation Panel.")
+                .addField(PREFIX + "install", "This command displays the installation panel.")
             .setFooter("Page 3/3 | " + footheren)
         const srhelpmessage = await message.channel.send(language_embed);
         await srhelpmessage.react("🇫🇷");
@@ -537,57 +546,19 @@ bot.on("message", async function(message) {
                 })
             }
         })
-        break;
-
-        case "hinstall":
-            if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            var language_embed = new Discord.RichEmbed()
-                .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
-                .setColor("#36393E")
-                .setFooter(foother + "/" + footheren)
-            var installfr_embed = new Discord.RichEmbed()
-                    .addField(PREFIX + "administration", "**Cette commande permet de** __**créer les salon et rôles**__ **dont j'ai besoin pour l'administration.**.")
-                    .addField(PREFIX + "log", "**Cette commande permet de** __**créer le salon des logs**__.")
-                    .addField(PREFIX + "install", "**Cette commande permet de** __**créer tout les salons et rôles**__ **dont j'ai besoin**.")
-                .setColor("#cc0000")
-                .setAuthor("Panel d'Installation")
-                .setFooter(foother)
-                .setTimestamp()
-            var installen_embed = new Discord.RichEmbed()
-                    .addField(PREFIX + "administration", "This command __**creates the channels and roles**__ **needed for administration**.")
-                    .addField(PREFIX + "log", "**This command** __**creates the log channel**__.")
-                    .addField(PREFIX + "install", "**This command** __**creates all the rooms and roles**__ **needed**.")
-                .setColor("#cc0000")
-                .setAuthor("Panel d'Installation")
-                .setTimestamp()
-                .setFooter(footheren)
-            message.delete()
-            const hinstall = await message.channel.send(language_embed);
-            await hinstall.react("🇫🇷");
-            await hinstall.react("🇬🇧");
-            const hinstallr = hinstall.createReactionCollector((reaction, user) => user.id === message.author.id);
-            hinstallr.on('collect', async(reaction) => {
-                if (reaction.emoji.name === "🇫🇷") {
-                    hinstall.edit(installfr_embed);
-                }
-                if (reaction.emoji.name === "🇬🇧") {
-                    hinstall.edit(installen_embed);
-                }
-                await reaction.remove(message.author.id);
-            })
-            console.log(PREFIX +"hinstall par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "hinstall `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-        break;           
+        break;       
 
         case "help":
         message.delete()
+        console.log(PREFIX +"help par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+        member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "help`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         var language_embed = new Discord.RichEmbed()
             .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
             .setColor("#36393E")
             .setFooter(foother + "/" + footheren)
         var startfr_embed = new Discord.RichEmbed()
             .setTitle("🛠🇫🇷Menu d'aide🇫🇷🛠 !")
-                .addField("Si tu a un problème avec les réactions ( qui sont toute enlever ) ajoute les toi même ! ( :one: :two: :three: )", "**Pour naviguer dans le menu d'aide, utilisez les réactions si-dessous.**")
+                .addField("Si tu as un problème avec les réactions ( qui sont toute enlever ) ajoute les toi-même ! ( :one: :two: :three: )", "**Pour naviguer dans le menu d'aide, utilisez les réactions ci-dessous.**")
             .setColor("#36393E")
             .setFooter(foother)
         var help1fr_embed = new Discord.RichEmbed()
@@ -604,6 +575,8 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "reseau", "**Avec cette commande tu pourras voir les __**réseau sociaux**__ **de mon créateur** !")
                 .addField(PREFIX + "traductionhelp", "**Pour affichier l'aide des** __**traductions**__ !")
                 .addField(PREFIX + "servinfo", "**Grâce à cette commande, tu pourras savoir les** __**informations du serveur**__ !")
+                .addField(PREFIX + "servlist", "**Grâce à cette commande, tu pourras savoir la** __**liste des serveurs où je suis.**__ !")
+                .addField(PREFIX + "ask", "**Si vous avez une question, utilisé cet commande** __**qui enverra un mp a mon créateur.**__ **tout spam/abus seront sanctionné d'une interdiction d'utilisation de commande** !")
                 .addField(PREFIX + "google", "**Avec cette commande, tu pourras faire des** __**recherches google**__. **Pour l'utiliser, faites** *" + PREFIX + "google (recherche)* !")
             .setFooter("Page 2/3 | " + foother)                
         var help3fr_embed = new Discord.RichEmbed()
@@ -630,6 +603,8 @@ bot.on("message", async function(message) {
                 .addField(PREFIX + "reseau", "**With this command you will be able to see the** __**social networks**__ **of my creator** !")
                 .addField(PREFIX + "traductionhelp", "**With this command you will be able to see the __**translation panel**__ !")
                 .addField(PREFIX + "servinfo", "**With this command, you will be able to know the** __**information of the server**__ !")
+                .addField(PREFIX + "servlist", "**Thanks to this command, you will be able to know the** __** ist of the servers where I am.**__!")
+                .addField(PREFIX + "ask", "**If you have a question, use this command** __**which will send a mp to my creator.** __ **any spam / abuse will be punished with a prohibition of use of command** !")
                 .addField(PREFIX + "google", "**With this command, you will be able to do** __**google searches**__. **To use it, do** *" + PREFIX + "google (searche)* !")
             .setFooter("Page 2/3 | " + footheren)                
         var help3en_embed = new Discord.RichEmbed()
@@ -698,7 +673,7 @@ bot.on("message", async function(message) {
             })
             member.addRole(rolekick)
             console.log(PREFIX +"kick par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "kick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "kick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 
             var kick_embed = new Discord.RichEmbed()
                     .addField("Action :", "Kick")
@@ -719,8 +694,9 @@ bot.on("message", async function(message) {
             if (message.mentions.users.size < 1) return message.reply("À qui je dois enlevé la sanction: ``kick``")
             message.channel.send(member.toString() + " a bien été unkick. ✅")
             member.removeRole(rolekick)
+            member.addRole(rolemembre)
             console.log(PREFIX +"unkick par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utiliser ``" + PREFIX + "unkick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");             
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "unkick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");             
             
             var unkick_embed = new Discord.RichEmbed()
                     .addField("Action :", "UnKick")
@@ -745,7 +721,7 @@ bot.on("message", async function(message) {
             })
             member.addRole(roleban)
             console.log(PREFIX +"ban par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "ban " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "ban " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 
             var ban_embed = new Discord.RichEmbed()
                     .addField("Action :", "Bannissement")
@@ -766,8 +742,9 @@ bot.on("message", async function(message) {
             if (message.mentions.users.size < 1) return message.reply("À qui je doit enlevé la sanction: ``ban``")
             message.channel.send(member.toString() + " a bien été ban. ✅")
             member.removeRole(roleban)
+            member.addRole(rolemembre)
             console.log(PREFIX +"unban par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "unban " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "unban " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 
             var unban_embed = new Discord.RichEmbed()
                 .addField("Action :", "UnBan")
@@ -787,7 +764,7 @@ bot.on("message", async function(message) {
             }).then(messages => message.channel.bulkDelete(messagecount));
             message.delete()
             console.log(PREFIX +"purge par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "purge " + messagecount + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "purge " + messagecount + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
 
         case "reseau":
@@ -803,7 +780,8 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.delete()
             message.channel.send(reseau_embed)
-            console.log("Mes reseau " + message.author.username + " !")
+            console.log(PREFIX +"reseau par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "reseau`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
     	break;
       
         case "google":
@@ -815,8 +793,10 @@ bot.on("message", async function(message) {
                 .setDescription('[Résultat de là recherche](https://www.google.fr/#q=' + suffix_google + ")")
                 .setColor('#36393E')
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(google_embed)
-            console.log("J'ai rechercher!" + message.author.username + " !!");
+            console.log(PREFIX +"google par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "google" + suffix_google + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
 
         case "tradhelp":
@@ -837,7 +817,8 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.delete()
             message.channel.send(tradhelp_embed)
-            console.log("Il veut traduire " + message.author.username + " !")
+            console.log(PREFIX +"tradhelp par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradhelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;      
       
         case "tradenfr":
@@ -849,8 +830,10 @@ bot.on("message", async function(message) {
                 .setDescription('[Voir la Traduction](https://translate.google.fr/#en/fr/' + suffix_tradenfr + ')')
                 .setColor("#36393E")
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(tradenfr_embed)
-            console.log("Traduction Anglais -> Français");
+            console.log(PREFIX +"tradenfr par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradenfr" + suffix_tradenfr + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "tradfren":
@@ -862,8 +845,10 @@ bot.on("message", async function(message) {
                 .setDescription('[Voir la Traduction](https://translate.google.fr/#fr/en/' + suffix_tradfren + ')')
                 .setColor("#36393E")
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(tradfren_embed)
-            console.log("Traduction Français -> Anglais");
+            console.log(PREFIX +"tradfren par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradfren" + suffix_tradfren + "b`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "tradesfr":
@@ -875,8 +860,10 @@ bot.on("message", async function(message) {
                 .setDescription('[Voir la Traduction](https://translate.google.fr/#es/fr/' + suffix_tradesfr + ')')
                 .setColor("#36393E")
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(tradesfr_embed)
-            console.log("Traduction Espagnol -> Français");
+            console.log(PREFIX +"tradesfr par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradesfr" + suffix_tradesfr + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "tradfres":
@@ -888,8 +875,10 @@ bot.on("message", async function(message) {
                 .setDescription('[Voir la Traduction](https://translate.google.fr/#fr/es/' + suffix_tradfres + ')')
                 .setColor("#36393E")
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(tradfres_embed)
-            console.log("Traduction Français -> Espagnol");
+            console.log(PREFIX +"tradfres par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradfres" + suffix_tradfres + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;      
       
         case "tradenes":
@@ -901,8 +890,10 @@ bot.on("message", async function(message) {
                 .setDescription('[Voir la Traduction](https://translate.google.fr/#en/es/' + suffix_tradenes + ')')
                 .setColor("#36393E")
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(tradenes_embed)
-            console.log("Traduction Anglais -> Espagnol");      
+            console.log(PREFIX +"tradenes par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradenes" + suffix_tradenes + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");    
         break;     
 
 	    case "tradesen":
@@ -914,47 +905,41 @@ bot.on("message", async function(message) {
                 .setDescription('[Voir la Traduction](https://translate.google.fr/#es/en/' + suffix_tradesen + ')')
                 .setColor("#36393E")
                 .setFooter(foother)
+                .setTimestamp()
             message.channel.send(tradesen_embed)
-            console.log("Traduction Espagnol -> Anglais");
+            console.log(PREFIX +"tradesen par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradesen" + suffix_tradesen + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"); 
 	    break;        
 
         case "annonce@":
             if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            var messagecount = parseInt(args2.join(" "));
-            message.channel.fetchMessages({
-                limit: messagecount
-            }).then(messages => message.channel.bulkDelete(messagecount));
-            message.delete()
             let staffs = message.content.split(" ");
             staffs.shift();
                 var newm_embed = new Discord.RichEmbed()
                     .addField("Annonce!", " "+ staffs.join(" "))
                 .setColor("#FF0000")
+                .setTimestamp()
                 .setFooter("Annonce de @" + message.author.username + "#" + message.author.discriminator + " | IlianBOT - " + version)
             message.delete();
             member.guild.channels.find("name", "annonce").send("@everyone **Nouvelle annonce**")
             member.guild.channels.find("name", "annonce").send(newm_embed)
-            console.log(PREFIX +"new@ par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "new@ + " + staffs.join(" ") + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            console.log(PREFIX +"annonce@ par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "annonce@ + " + staffs.join(" ") + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "annonce":
             if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            var messagecount = parseInt(args2.join(" "));
-            message.channel.fetchMessages({
-                limit: messagecount
-            }).then(messages => message.channel.bulkDelete(messagecount));
-            message.delete()
             let staff = message.content.split(" ");
             staff.shift();
             var nw_embed = new Discord.RichEmbed()
                     .addField("Annonce!", " "+ staff.join(" "))
                 .setColor("#FF0000")
+                .setTimestamp()
                 .setFooter("Annonce de @" + message.author.username + "#" + message.author.discriminator + " | IlianBOT - " + version)
             message.delete();
             member.guild.channels.find("name", "annonce").send(nw_embed);
-            console.log(PREFIX +"new par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "new " + staff.join(' ') + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            console.log(PREFIX +"annonce par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "annonce " + staff.join(' ') + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
 
         case "botinfo":
@@ -983,118 +968,365 @@ bot.on("message", async function(message) {
                     .addField(":heartpulse: API Discord :", `${bot.ping} millisecondes`, true)
                 .setTimestamp()
                 .setFooter(foother)
+            console.log(PREFIX +"botinfo par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "botinfo`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
             
-        case "ivcs":
-            if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            message.guild.createChannel('vcs-ilianbot')
-            console.log(PREFIX +"ivcs par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "ivcs `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-        break; 
-
-        case "log":
-            if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            message.guild.createChannel('🤖bot-logs🤖')
-            message.guild.createChannel('staff-logs')
-            message.channel.send("Les salons ``#🤖bot-logs🤖`` et ``#staff-logs`` ont bien été crée ! ✅\nMerci de configuré les permissions")
-            console.log(PREFIX +"log par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "log `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-        break;
-
-        case "administration":
-            message.channel.send("Les salons ``#kick`` et ``#ban`` on été crée✅.\nLes rôles ``@Kick``, ``@Mute`` et ``@Banni(e)`` on été crée.✅\nMerci de configuré les permissions")
-            if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-            message.guild.createChannel('kick')
-            message.guild.createChannel('ban')
-            message.channel.send("Les salons ``#kick`` et ``#ban`` on été crée✅.\nLes rôles ``@Kick``, ``@Mute`` et ``@Banni(e)`` on été crée.✅\nMerci de configuré les permissions")
-                guild.createRole({
-                    name: 'Banni(e)',
-                    color: 'RED',
-                })
-                .then(role => console.log(`Le rôle ${role.name} à été crée et a pour couleur ${role.color}`))
-                .catch(console.error)
-                guild.createRole({
-                    name: 'Kick',
-                    color: 'RED',
-                })
-                .then(role => console.log(`Le rôle ${role.name} à été crée et a pour couleur ${role.color}`))
-                .catch(console.error)    
-                guild.createRole({
-                    name: 'Mute',
-                    color: 'BLUE',
-                })
-                .then(role => console.log(`Le rôle ${role.name} à été crée et a pour couleur ${role.color}`))
-                .catch(console.error)   
-            console.log(PREFIX +"administration par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.toString() + "** a utilisé ``" + PREFIX + "administration `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
-        break;
-
         case "install":
-        if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
-        message.guild.createChannel('vcs-ilianbot')
-        message.guild.createChannel('staff-logs')
-        message.guild.createChannel('🤖bot-logs🤖')
-        message.guild.createChannel('kick')
-        message.guild.createChannel('ban')
-        console.log(PREFIX +"install par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-        message.channel.send("Les salons ``#vcs``, ``#🤖bot-logs🤖``, ``#staff-logs``, ``#kick``, ``#ban`` on été crée✅.\nLes rôles ``@Kick``, ``@Mute`` et ``@Banni(e)`` on été crée.✅\nMerci de configuré les permissions.")
-        guild.createRole({
-            name: 'Banni(e)',
-            color: 'RED',
-        })
-        .then(role => console.log(`Le rôle ${role.name} à été crée et a pour couleur ${role.color}`))
-        .catch(console.error)
-        guild.createRole({
-            name: 'Kick',
-            color: 'RED',
-        })
-        .then(role => console.log(`Le rôle ${role.name} à été crée et a pour couleur ${role.color}`))
-        .catch(console.error)    
-        guild.createRole({
-            name: 'Mute',
-            color: 'BLUE',
-        })
-        .then(role => console.log(`Le rôle ${role.name} à été crée et a pour couleur ${role.color}`))
-        .catch(console.error)        
-        break;
+        // LOGS
 
-        case "servinfo":
-            var load1_embed = new Discord.RichEmbed()
-                .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")
-            message.channel.send(load1_embed).then(message => message.edit(load2_embed)).then(message => message.edit(load3_embed)).then(message => message.edit(load4_embed)).then(message => message.edit(servinfo_embed));
-            var load2_embed = new Discord.RichEmbed()
-                .addField(':clock2: Chargement en cours..', "Merci de patienter quelques instants !")  
-            var load3_embed = new Discord.RichEmbed()
-                .addField(':clock2: Chargement en cours...', "Merci de patienter quelques instants !")   
-            var load4_embed = new Discord.RichEmbed()
-                .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")       
-            var servinfo_embed = new Discord.RichEmbed()
-                .setAuthor("Information du Serveur", message.author.avatarURL)
-                    .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "``.", true)
-                    .addField("ServeurID :", "L'ID du serveur est : ``" + message.guild.id + "``.", true)
-                    .addField("Création du Serveur", "Le serveur à été crée le : ``" + message.guild.createdAt + "``.", true)
-                    .addField("Fondateur :", "Le fondateur du serveur est : " + message.guild.owner + ".", true)
-                    .addField("FondateurID :", "L'ID du Fondteur est : ``" + message.guild.ownerID + "``.", true)
-                    .addField("Membres :", "Nous sommes actuellement ``" + message.guild.memberCount  + " membres`` au total.", true)
-                .setColor("#FF0000")
-                .setFooter(foother)
-                .setThumbnail(message.guild.iconURL)
-        break;        
+            console.log(PREFIX +"install par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "install`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+
+        // Channel 
         
-  /*      case "majinfo":
-           if (message.author.id === "193092758267887616") {
-                var maj_embed = new Discord.RichEmbed()
-                .setAuthor("Update " + version, message.author.avatarURL)
-                    .addField("🇫🇷Musique Update,", "**La musique est de nouveau fonctionnel avec un nouveau style encore en dévelopement. Seul les liens youtube fonctionne pour le moment et le play-list ne marche pas. Le stop reste encore infonctionnel donc utiliser le skip pour stoper le bot car si le bot n'a plus de musique en file d'attente il se déconnecte du salon vocal**.")
-                    .addField("🇬🇧Music Update🇬🇧,", "**The music is again functional with a new style still in development. Only youtube links work for the moment and the play-list does not work. The stop is still infunctional so use the skip to stop the bot because if the bot no longer has music queued it disconnects from the vocal lounge**.")
-                    .addField("🇪🇸Música de idioma🇪🇸,", "**La música vuelve a funcionar con un nuevo estilo todavía en desarrollo. Solo los enlaces de youtube funcionan por el momento y la lista de reproducción no funciona. La parada sigue siendo infuncional así que use el salto para detener el bot porque si el bot ya no tiene música puesta en cola se desconecta del salón vocal**.")
-                .setColor("#00FF6F")
-                .setFooter("Google trad comme d'hab ! " + version)
-                .setThumbnail(message.author.avatarURL)
-            bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
-            message.delete()
-            }
-        break; */
+                var channel_botlogs = "🤖bot-logs🤖";
+                    
+                var channel_stafflogs = "staff-logs";
+        
+                var channel_vcs = "vcs-ilianbot";
+        
+                var channel_kick = "kick";
+        
+                var channel_ban = "ban";
+        // Rôle 
+        
+                var role_ban = "Banni(e)";
+                
+                var role_ban_kick_couleur = "RED";
+        
+                var role_kick = "Kick";
+        
+                var role_mute_color = "BLUE";
+        
+                var role_mute = "Mute";
+        
+        // Le code
+        
+                if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
+                message.delete()
+                var langage_embed = new Discord.RichEmbed()
+                    .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
+                    .setColor("#36393E")
+                    .setFooter(foother + " / " + footheren)
+                    .setTimestamp()
+                var installfr_embed = new Discord.RichEmbed()
+                    .setAuthor("Panel d'installation", message.author.avatarURL)
+                    .setDescription("🇫🇷Il te manque une réactions ? Ajoute la !🇫🇷")
+                    .setTimestamp()
+                    .setColor("#0099ff")
+                        .addField("Partie 1,", "**Les channels** !")
+                        .addField("📄", "Pour créer le channel : #" + channel_botlogs)
+                        .addField("⚙", "Pour créer le channel : #" + channel_stafflogs)
+                        .addField("🌐", "Pour créer le channel : #" + channel_vcs)
+                        .addField("📛", "Pour créer le channel : #" + channel_ban)
+                        .addField("🌪", "Pour créer le channel : #" + channel_kick)
+                        .addBlankField()
+                        .addField("Partie 2,", "**Les rôles** !")
+                        .addField("⛔", "Pour crée rle rôle : @" + role_ban)
+                        .addField("❌", "Pour créer le rôle : @" + role_kick)
+                        .addField("🤐", "Pour créer le rôle : @" + role_mute)
+                    .setFooter("Oublié pas de configurer les permission. Elle seront bientôt configuré automatiquement ! | " + foother)
+                var installen_embed = new Discord.RichEmbed()
+                    .setAuthor("Installation Panel", message.author.avatarURL)
+                    .setDescription("🇬🇧Do you miss a reaction ? Add it !🇬🇧")
+                    .setTimestamp()
+                    .setColor("#4da6ff")
+                        .addField("Part 1,", "**The channels** !")
+                        .addField("📄", "To create the channel : #" + channel_botlogs)
+                        .addField("⚙", "To create the channel : #" + channel_stafflogs)
+                        .addField("🌐", "To create the channel : #" + channel_vcs)
+                        .addField("📛", "To create the channel : #" + channel_ban)
+                        .addField("🌪", "To create the channel : #" + channel_kick)
+                        .addBlankField()
+                        .addField("Part 2,", "**The roles** !")
+                        .addField("⛔", "To create the role : @" + role_ban)
+                        .addField("❌", "To create the role : @" + role_kick)
+                        .addField("🤐", "To create the role : @" + role_mute)
+                    .setFooter("Forgot to configure permissions. It will soon be configured automatically ! | " + footheren)
+                const installmessage = await message.channel.send(langage_embed);
+                await installmessage.react("🇫🇷");
+                await installmessage.react("🇬🇧");
+                const installpannier = installmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                installpannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    installmessage.edit(installfr_embed);
+                    installmessage.clearReactions();
+                    await installmessage.react("📄");
+                    await installmessage.react("⚙");
+                    await installmessage.react("🌐");
+                    await installmessage.react("📛");
+                    await installmessage.react("🌪");
+                    await installmessage.react("⛔");
+                    await installmessage.react("❌");
+                    await installmessage.react("🤐");
+                    const installmsgreacfr = installmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                    installmsgreacfr.on('collect', async(reaction) => {
+                    if (reaction.emoji.name === "📄") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.channels.find("name", channel_botlogs)) return message.channel.send("Le channel ``#" + channel_botlogs + "`` existe déjà !") 
+                        message.guild.createChannel(channel_botlogs)
+                        message.channel.send("Le channel ``#" + channel_botlogs + "`` à été créer avec succès !")
+                    }
+                    if (reaction.emoji.name === "⚙") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.channels.find("name", channel_stafflogs)) return message.channel.send("Le channel ``#" + channel_stafflogs + "`` existe déjà !") 
+                        message.guild.createChannel(channel_stafflogs)
+                        message.channel.send("Le channel ``#" + channel_stafflogs + "`` à été créer avec succès !")
+                    }
+                    if (reaction.emoji.name === "🌐") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.channels.find("name", channel_vcs)) return message.channel.send("Le channel ``#" + channel_vcs + "`` existe déjà !") 
+                        message.guild.createChannel(channel_vcs)
+                        message.channel.send("Le channel ``#" + channel_vcs + "`` à été créer avec succès !")
+                    }
+                    if (reaction.emoji.name === "📛") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.channels.find("name", channel_ban)) return message.channel.send("Le channel ``#" + channel_ban + "`` existe déjà !") 
+                        message.guild.createChannel(channel_ban)
+                        message.channel.send("Le channel ``#" + channel_ban + "`` à été créer avec succès !")
+                    }
+                    if (reaction.emoji.name === "🌪") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.channels.find("name", channel_kick)) return message.channel.send("Le channel ``#" + channel_kick + "`` existe déjà !") 
+                        message.guild.createChannel(channel_kick)
+                        message.channel.send("Le channel ``#" + channel_kick + "`` à été créer avec succès !")
+                    }
+                    if (reaction.emoji.name === "⛔") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.roles.find("name", role_ban)) return message.channel.send("Le rôle ``@" + role_ban + "`` existe déjà !") 
+                        guild.createRole({
+                            name: role_ban,
+                            color: role_ban_kick_couleur,
+                        })
+                        message.channel.send("Le rôle ``@" + role_ban + "`` à été créer avec succès avec couleur ``" + role_ban_kick_couleur + "``!")
+                    }
+                    if (reaction.emoji.name === "❌") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.roles.find("name", role_kick)) return message.channel.send("Le rôle ``@" + role_kick + "`` existe déjà !") 
+                        guild.createRole({
+                            name: role_kick,
+                            color: role_ban_kick_couleur,
+                        })
+                        message.channel.send("Le rôle ``@" + role_kick + "`` à été créer avec succès avec couleur ``" + role_ban_kick_couleur + "``!")
+                    }
+                    if (reaction.emoji.name === "🤐") {
+                        await reaction.remove(message.author.id)
+                        if(member.guild.roles.find("name", role_mute)) return message.channel.send("Le rôle ``@" + role_mute + "`` existe déjà !") 
+                        guild.createRole({
+                            name: role_mute,
+                            color: role_mute_color,
+                        })
+                        message.channel.send("Le rôle ``@" + role_mute + "`` à été créer avec succès avec couleur ``" + role_mute_color + "``!")
+                    }
+                    await reaction.remove(message.author.id);
+                    })
+                    }
+                    if (reaction.emoji.name === "🇬🇧") {
+                        installmessage.edit(installen_embed);
+                        installmessage.clearReactions();
+                        await installmessage.react("📄");
+                        await installmessage.react("⚙");
+                        await installmessage.react("🌐");
+                        await installmessage.react("📛");
+                        await installmessage.react("🌪");
+                        await installmessage.react("⛔");
+                        await installmessage.react("❌");
+                        await installmessage.react("🤐");
+                        const installmsgreacen = installmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                        installmsgreacen.on('collect', async(reaction) => {
+                            if (reaction.emoji.name === "📄") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.channels.find("name", channel_botlogs)) return message.channel.send("The channel ``#" + channel_botlogs + "`` already exists !") 
+                                message.guild.createChannel(channel_botlogs)
+                                message.channel.send("The channel ``#" + channel_botlogs + "`` was successfully creating !")
+                            }
+                            if (reaction.emoji.name === "⚙") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.channels.find("name", channel_stafflogs)) return message.channel.send("The channel ``#" + channel_stafflogs + "`` already exists !") 
+                                message.guild.createChannel(channel_stafflogs)
+                                message.channel.send("The channel ``#" + channel_stafflogs + "`` was successfully creating !")
+                            }
+                            if (reaction.emoji.name === "🌐") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.channels.find("name", channel_vcs)) return message.channel.send("The channel ``#" + channel_vcs + "`` already exists !") 
+                                message.guild.createChannel(channel_vcs)
+                                message.channel.send("The channel ``#" + channel_vcs + "`` was successfully creating !")
+                            }
+                            if (reaction.emoji.name === "📛") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.channels.find("name", channel_ban)) return message.channel.send("The channel ``#" + channel_ban + "`` already exists !") 
+                                message.guild.createChannel(channel_ban)
+                                message.channel.send("The channel ``#" + channel_ban + "`` was successfully creating !")
+                            }
+                            if (reaction.emoji.name === "🌪") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.channels.find("name", channel_kick)) return message.channel.send("The channel ``#" + channel_kick + "`` already exists !") 
+                                message.guild.createChannel(channel_kick)
+                                message.channel.send("The channel ``#" + channel_kick + "`` was successfully creating !")
+                            }
+                            if (reaction.emoji.name === "⛔") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.roles.find("name", role_ban)) return message.channel.send("The rôle ``@" + role_ban + "`` already exists !") 
+                                guild.createRole({
+                                    name: role_ban,
+                                    color: role_ban_kick_couleur,
+                                })
+                                message.channel.send("The rôle ``@" + role_ban + "`` was successfully creating with color ``" + role_ban_kick_couleur + "``!")
+                            }
+                            if (reaction.emoji.name === "❌") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.roles.find("name", role_kick)) return message.channel.send("The rôle ``@" + role_kick + "`` already exists !") 
+                                guild.createRole({
+                                    name: role_kick,
+                                    color: role_ban_kick_couleur,
+                                })
+                                message.channel.send("The rôle ``@" + role_kick + "`` was successfully creating with color ``" + role_ban_kick_couleur + "``!")
+                            }
+                            if (reaction.emoji.name === "🤐") {
+                                await reaction.remove(message.author.id)
+                                if(member.guild.roles.find("name", role_mute)) return message.channel.send("The rôle ``@" + role_mute + "`` already exists !") 
+                                guild.createRole({
+                                    name: role_mute,
+                                    color: role_mute_color,
+                                })
+                                message.channel.send("The rôle ``@" + role_mute + "`` was successfully creating with color ``" + role_mute_color + "``!")
+                            }
+                        await reaction.remove(message.author.id);
+                        })
+                    }
+                })
+            break;
+
+            case "servinfo":
+                console.log(PREFIX +"servinfo par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+                member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "servinfo`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+                var load1_embed = new Discord.RichEmbed()
+                    .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")
+                message.channel.send(load1_embed).then(message => message.edit(load2_embed)).then(message => message.edit(load3_embed)).then(message => message.edit(load4_embed)).then(message => message.edit(servinfo_embed));
+                var load2_embed = new Discord.RichEmbed()
+                    .addField(':clock2: Chargement en cours..', "Merci de patienter quelques instants !")  
+                var load3_embed = new Discord.RichEmbed()
+                    .addField(':clock2: Chargement en cours...', "Merci de patienter quelques instants !")   
+                var load4_embed = new Discord.RichEmbed()
+                    .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")       
+                var servinfo_embed = new Discord.RichEmbed()
+                    .setAuthor("Information du Serveur", message.author.avatarURL)
+                        .addField("Nom du Serveur :", "Le serveur s'appelle : ``" + message.guild.name + "``.", true)
+                        .addField("ServeurID :", "L'ID du serveur est : ``" + message.guild.id + "``.", true)
+                        .addField("Création du Serveur", "Le serveur à été crée le : ``" + message.guild.createdAt + "``.", true)
+                        .addField("Fondateur :", "Le fondateur du serveur est : " + message.guild.owner + ".", true)
+                        .addField("FondateurID :", "L'ID du Fondteur est : ``" + message.guild.ownerID + "``.", true)
+                        .addField("Membres :", "Nous sommes actuellement ``" + message.guild.memberCount  + " membres`` au total.", true)
+                    .setColor("#FF0000")
+                    .setFooter(foother)
+                    .setTimestamp()
+                    .setThumbnail(message.guild.iconURL)
+            break;
+            
+            case "servlist":
+                var langage_embed = new Discord.RichEmbed()
+                    .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
+                    .setColor("#36393E")
+                    .setFooter(foother + " / " + footheren)
+                    .setTimestamp()
+                var servlistfr_embed = new Discord.RichEmbed()
+                    .setAuthor("Liste des serveurs", message.author.avatarURL)
+                    .setDescription(bot.guilds.map(r => r.name + ` ► **${r.memberCount}** membres`))
+                    .setFooter(foother)
+                    .setColor("#819FF7")
+                    .setTimestamp()
+                var servlisten_embed = new Discord.RichEmbed()
+                    .setAuthor("List of servers", message.author.avatarURL)
+                    .setDescription(bot.guilds.map(r => r.name + ` ► **${r.memberCount}** members`))
+                    .setFooter(footheren)
+                    .setColor("#CC2EFA")
+                    .setTimestamp()
+                const servlistmessage = await message.channel.send(langage_embed);
+                await servlistmessage.react("🇫🇷");
+                await servlistmessage.react("🇬🇧");
+                const servlisrpannier = servlistmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                servlisrpannier.on('collect', async(reaction) => {
+                    if (reaction.emoji.name === "🇫🇷") {
+                        servlistmessage.edit(servlistfr_embed)
+                    }
+                    if (reaction.emoji.name === "🇬🇧") {
+                        servlistmessage.edit(servlisten_embed)
+                    }
+                    await reaction.remove(message.author.id)
+                })
+            break;
+
+            case "modehelp":
+                if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu n'as pas la permission d'exécuter la commande. :x:");
+                    var langage_embed = new Discord.RichEmbed()
+                        .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
+                        .setColor("#36393E")
+                        .setFooter(foother + " / " + footheren)
+                        .setTimestamp()
+                    var modehelpfr_embed = new Discord.RichEmbed()
+                        .setAuthor("Explication du système de modération", message.author.avatarURL)
+                            .addField("Histoire,", "Le système de modération a été pensé et réalisé par mon fondateur. ( <@193092758267887616> ) ")
+                            .addField("Fonctionnement,", "Le fonctionnement de ce système est très simple, la personne qui se fera bannir où kick avec les commandes perdra tous les rôles qu'il a actuellement et obtiendra le rôle kick ou banni(e) ( cela dépend bien sûre de la sanction) et n'aura accès qu'à un seul channel nommé kick ou ban sans la permission d'écrire.")
+                            .addField("Pourquoi,", "Pourquoi le bot ban/kick pas vraiment ? La raison est très simple, quand une personne se fait kick où ban il ne cherchera pas forcément une invitation pour revenir donc comme il aura accès qu'a un seul channel il pourra tout de même rester sur le serveur.")
+                            .addField("Une question ?", "Contacter mon créateur en venant sur mon serveur officiel ou en utilisant ``" + PREFIX + "ask`` pour poser votre question.")
+                        .setFooter(foother)
+                        .setColor("#8181F7")
+                        .setTimestamp()
+                    var modehelpen_embed = new Discord.RichEmbed()
+                        .setAuthor("Explanation of the moderation system", message.author.avatarURL)
+                            .addField("History,", "The system of moderation was thought and realized by my founder. ( <@193092758267887616> ) ")
+                            .addField("Operation,", "The operation of this system is very nice, the person who will be banned or kicked with my commands will lose all the roles he currently has and get the role Kick or Banni(e) (( this depends of course on the sanction) and will have access to only 1 channel named kick or ban without permission to write.")
+                            .addField("Why,", "Why the bot ban/kick not really ? The reason is very simple, when a person is kicked or ban he will not necessarily seek an invitation to return so as he will have access to a single channel he can still stay on the server.")
+                            .addField("A question ?", "Contact my creator by coming to my official server or use ``" + PREFIX + "ask`` to ask your question.")
+                        .setFooter(footheren)
+                        .setColor("#8181F7")
+                        .setTimestamp()    
+                const modehelpmessage = await message.channel.send(langage_embed);
+                await modehelpmessage.react("🇫🇷");
+                await modehelpmessage.react("🇬🇧");
+                const modehelppannier = modehelpmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+                modehelppannier.on('collect', async(reaction) => {
+                    if (reaction.emoji.name === "🇫🇷") {
+                        modehelpmessage.edit(modehelpfr_embed)
+                    }
+                    if (reaction.emoji.name === "🇬🇧") {
+                        modehelpmessage.edit(modehelpen_embed)
+                    }
+                    await reaction.remove(message.author.id)
+                })
+            break;
+            
+            case "ask":
+                let ask = message.content.split(" ").slice(1);
+                let suffix_ask = ask.join(' ')
+                if(!suffix_ask) return message.reply("Vous devez marquez votre question.")
+                var ask_embed = new Discord.RichEmbed()
+                .setAuthor("Question", message.author.avatarURL)
+                    .addField("Question de :", message.author.toString() + "( ``" + message.author.id + "`` )")
+                    .addField("Provenance du message : ", "``" + message.guild.name + "``" + "( ``" + message.guild.id + "`` )")
+                    .addField("Ça question : ",  suffix_ask)
+                .setTimestamp()
+                .setFooter(foother)
+                .setColor("#FE9A2E")
+                message.client.users.get("193092758267887616").send(ask_embed)
+            break;
+        
+        /*    case "majinfo":
+                if (message.author.id === "193092758267887616") {
+                        var maj_embed = new Discord.RichEmbed()
+                        .setAuthor("Update " + version, message.author.avatarURL)
+                            .addField("🇫🇷Petite Update🇫🇷,", `**Ajout de 3 commandes et grosse modification de "l'installateur", les mentions ont été retirée du salon #staffs-logs. Les commandes *servlist opérationnelle ainsi que *ask & *modehelp qui vous expliquera le système de modération**.`)
+                            .addField("🇬🇧Little Update🇬🇧,", `**Addition of 3 commands and big modification of the "installer", the mentions were removed from the salon #staffs-logs. The *servlist operational commands as well as *ask & *modehelp which will explain the moderation system**.`)
+                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `**Además de 3 pedidos y una gran modificación del "instalador", las menciones fueron eliminadas de los registros del personal del salón. Los comandos operativos *servlist así como *ask & *modehelp que explicarán el sistema de moderación**.`)
+                        .setColor("#00FF6F")
+                        .setFooter("Google trad comme d'hab ! " + version)
+                        .setThumbnail(message.author.avatarURL)
+                        .setTimestamp()
+                    bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
+                    message.delete()
+                }
+            break; 
 
    /*     case "changeprefix":
             if(!prefixes[message.guild.id]){
