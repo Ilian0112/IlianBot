@@ -82,6 +82,19 @@ bot.on("message", async function (message) {
         message.delete()
         return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(monbb_embed));
     } 
+        if (message.author.id === "370593040706043905") {
+        const monbb_embed = new Discord.RichEmbed()
+            .setColor("#2EFE2E")
+            .setAuthor("Créateur de DracoBot – VCS", message.guild.iconURL)
+            .setDescription(message.content)
+                .addField("Provenance du message :", "``" + message.guild.name + "``", true)
+                .addField("Message de : ", message.author.toString())
+                .setThumbnail(message.author.avatarURL)
+            .setFooter("Ilian's Community | IlianBOT - " + version)
+            .setTimestamp()
+        message.delete()
+        return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(monbb_embed));
+    } 
  /*   if (message.author.id === "") {
         const ban_embed = new Discord.RichEmbed()
             .setColor("#2A00FF")
