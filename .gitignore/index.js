@@ -16,11 +16,13 @@ var emoji_instaID = "457965848301404162"
 , emoji_twitterID = "457957941883043871"
 , emoji_facebookID = "457965866051698688"
 , emoji_snapID = "457975117818101791"
+, emoji_youtubeID = "475071414932865065"
 
 var emoji_insta = "<:emoji_insta:" + emoji_instaID + ">"
 , emoji_twitter = "<:emoji_twitter:" + emoji_twitterID + ">"
 , emoji_facebook = "<:emoji_facebook:" + emoji_facebookID + ">"
 , emoji_snap = "<:emoji_snap:" + emoji_snapID + ">"
+, emoji_youtube = "<:emoji_youtube:" + emoji_youtubeID + ">"
 
 var servers = {};
 
@@ -798,7 +800,8 @@ bot.on("message", async function(message) {
                     .addField(emoji_insta + "Instagram", "[@supersfanne](https://www.instagram.com/supersfanne/)", true) 
                     .addField(emoji_twitter + "Twitter", "[@SupersFanne](https://twitter.com/supersfanne)", true)
                     .addField(emoji_facebook + "Facebook", "[@Supers-Fanne](https://www.facebook.com/profile.php?id=100012028577867)", true)
-                    .addField(emoji_snap + "Snapchat", "[@supers_fanne](https://app.snapchat.com/web/deeplink/snapcode?username=supers_fanne&type=SVG&size=240)")
+                    .addField(emoji_snap + "Snapchat", "[supers_fanne](https://app.snapchat.com/web/deeplink/snapcode?username=supers_fanne&type=SVG&size=240)")
+	    	    .addField(emoji_youtube + "YouTube", "[Supers Fanne](https://www.youtube.com/channel/UCc-OIiC2bDwFbEUXmsy_khg/?sub_confirmation=1)")
                 .setFooter("Demande de @" + message.author.username + "#" + message.author.discriminator + " !")
                 .setAuthor("Réseaux Sociaux de mon créateur")
                 .setDescription("Pour l'actualité !")
