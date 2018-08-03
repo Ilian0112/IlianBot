@@ -800,7 +800,7 @@ bot.on("message", async function(message) {
                     .addField(emoji_facebook + "Facebook", "[@Supers-Fanne](https://www.facebook.com/profile.php?id=100012028577867)", true)
                     .addField(emoji_snap + "Snapchat", "[@supers_fanne](https://app.snapchat.com/web/deeplink/snapcode?username=supers_fanne&type=SVG&size=240)")
                 .setFooter("Demande de @" + message.author.username + "#" + message.author.discriminator + " !")
-                .setAuthor("Réseaux Sociaux De Supers Fanne")
+                .setAuthor("Réseaux Sociaux de mon créateur")
                 .setDescription("Pour l'actualité !")
                 .setColor('#0000ff')
                 .setTimestamp()
