@@ -48,7 +48,7 @@ bot.on("ready", function () {
     .setTitle("Je suis connecté")
     .setTimestamp()
     .setColor("#36393E")
-    bot.channels.findAll("name", "private-cmd").map(channel => channel.send(connection_embed));
+    bot.channels.findAll("name", "staff-logs").map(channel => channel.send(connection_embed));
 });
 
 bot.on("message", async function (message) {
@@ -83,7 +83,7 @@ bot.on("message", async function (message) {
         return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(monbb_embed));
     } 
         if (message.author.id === "370593040706043905") {
-        const monbb_embed = new Discord.RichEmbed()
+        const fondadracobot_embed = new Discord.RichEmbed()
             .setColor("#2EFE2E")
             .setAuthor("Créateur de DracoBot – VCS", message.guild.iconURL)
             .setDescription(message.content)
@@ -93,7 +93,20 @@ bot.on("message", async function (message) {
             .setFooter("Ilian's Community | IlianBOT - " + version)
             .setTimestamp()
         message.delete()
-        return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(monbb_embed));
+        return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(fondadracobot_embed));
+    } 
+	if (message.author.id === "472012503178805279") {
+        const cofondadracobot_embed = new Discord.RichEmbed()
+            .setColor("#B92525")
+            .setAuthor("Co-Créateur de DracoBot – VCS", message.guild.iconURL)
+            .setDescription(message.content)
+                .addField("Provenance du message :", "``" + message.guild.name + "``", true)
+                .addField("Message de : ", message.author.toString())
+                .setThumbnail(message.author.avatarURL)
+            .setFooter("Ilian's Community | IlianBOT - " + version)
+            .setTimestamp()
+        message.delete()
+        return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(cofondadracobot_embed));
     } 
  /*   if (message.author.id === "") {
         const ban_embed = new Discord.RichEmbed()
