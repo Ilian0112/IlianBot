@@ -1,30 +1,40 @@
+// MODULE
 const Discord = require("discord.js");
 const YTDL = require("ytdl-core");
-const PREFIX = "*";
-const queue = new Map();
 const fs = require("fs");
+//
 
-var client = new Discord.Client();
+// NEW CLIENT
+const client = new Discord.Client();
+const bot = new Discord.Client();
+//
 
-var version = "V.1.2.9"
+// BOT INFO
+const version = "V.1.3.0"
+const PREFIX = "*";
+//
 
-var bot = new Discord.Client();
-
-//let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8"));
-
-var emoji_instaID = "457965848301404162"
+// EMOJI
+const emoji_instaID = "457965848301404162"
 , emoji_twitterID = "457957941883043871"
 , emoji_facebookID = "457965866051698688"
 , emoji_snapID = "457975117818101791"
 , emoji_youtubeID = "475071414932865065"
 
-var emoji_insta = "<:emoji_insta:" + emoji_instaID + ">"
+const emoji_insta = "<:emoji_insta:" + emoji_instaID + ">"
 , emoji_twitter = "<:emoji_twitter:" + emoji_twitterID + ">"
 , emoji_facebook = "<:emoji_facebook:" + emoji_facebookID + ">"
 , emoji_snap = "<:emoji_snap:" + emoji_snapID + ">"
 , emoji_youtube = "<:emoji_youtube:" + emoji_youtubeID + ">"
+//
 
-var servers = {};
+// LOGS CHANNEL
+var stafflogchannelname = "commandes-logs";
+//
+
+// MUSIQUE 
+const servers = {};
+const queue = new Map();
 
 function play(connection, message) {
  var server = servers[message.guild.id];
@@ -38,6 +48,7 @@ function play(connection, message) {
      else connection.disconnect();
     });
 }
+//
 
 bot.on("ready", function () {
     bot.user.setActivity("IlianBOT - *help", {
@@ -46,13 +57,16 @@ bot.on("ready", function () {
 }),
     bot.user.setUsername("IlianBOT")
     console.log("IlianBOT - Connecté");
-    var connection_embed = new Discord.RichEmbed()
-    .setTitle("Je suis connecté")
-    .setTimestamp()
-    .setColor("#36393E")
-    bot.channels.findAll("name", "staff-logs").map(channel => channel.send(connection_embed));
+
+        var connection_embed = new Discord.RichEmbed()
+            .setTitle("Je suis connecté")
+            .setTimestamp()
+            .setColor("#36393E")
+
+    bot.channels.findAll("name", stafflogchannelname).map(channel => channel.send(connection_embed));
 });
 
+// VCS
 bot.on("message", async function (message) {
     if(message.channel.name !== "vcs-ilianbot") return;
     if(message.author.id === bot.user.id) return;
@@ -135,6 +149,7 @@ bot.on("message", async function (message) {
         bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(vcs_embed));
     }
 })
+//
 
 bot.on('message', function(message) {
        if(message.content === 'Ta mère la grosse pute') { // # cencure
@@ -144,19 +159,27 @@ bot.on('message', function(message) {
        }
 });
 
-    bot.on("guildMemberAdd", function(message) {
+bot.on("guildMemberAdd", function(message) {
         var join_embed = new Discord.RichEmbed()
-        .setAuthor("Nouveau Membre :")
-        .setTitle("Bienvenue " + message.user.username + " sur " + message.guild.name + " ! :white_check_mark:")
-        .setColor("#3333cc")
-        .setTimestamp()
-        message.guild.channels.find("name", "🤖bot-logs🤖").sendEmbed(join_embed);
-        message.addRole(message.guild.roles.find("name", "Membre"));
-    });
+            .setAuthor("Arrivée :", message.guild.avatarURL)
+            .setDescription("Bienvenue @" + message.user.username + "#" + message.user.discriminator + " sur " + message.guild.name + "`` ! :white_check_mark:")
+            .setColor("#3333cc")
+            .setThumbnail(message.user.avatarURL)
+            .setTimestamp()
+    message.guild.channels.find("name", "🤖bot-logs🤖").send(join_embed);
+    message.addRole(message.guild.roles.find("name", "Membre"));
+});
     
-    bot.on("guildMemberRemove", function(message) {
-        message.guild.channels.find("name", "🤖bot-logs🤖").sendMessage("A bientôt " + message.toString() + " sur ``" + message.guild.name + "`` !");
-    });
+bot.on("guildMemberRemove", function(message) {
+        var leave_embed = new Discord.RichEmbed()
+            .setAuthor("Départ :", message.guild.avatarURL)
+            .setDescription("A bientôt @" + message.user.username + "#" + message.user.discriminator + " sur ``" + message.guild.name + "`` !")
+            .setColor("#3333cc")
+            .setThumbnail(message.user.avatarURL)
+            .setTimestamp()
+    message.guild.channels.find("name", "🤖bot-logs🤖").send(leave_embed);
+    message.guild.channels.find("name", "🤖bot-logs🤖").send("A bientôt " + message.toString() + " sur ``" + message.guild.name + "`` !");
+});
     
     
 bot.on("message", async function(message) {
@@ -180,6 +203,8 @@ bot.on("message", async function(message) {
     
     var member = message.member;
 
+    var stafflogfind = member.guild.roles.find("name", stafflogchannelname);
+
     var roleban = member.guild.roles.find("name", "Banni(e)")
 
     var rolekick = member.guild.roles.find("name", "Kick")
@@ -198,7 +223,7 @@ bot.on("message", async function(message) {
 
     switch (args[0].toLowerCase()) {
         case "play":
-        	if (!args[1]) {  
+        if (!args[1]) {  
                 var nolink_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
                     .setDescription("Vous n'avez pas entrez de lien !")
@@ -260,11 +285,17 @@ bot.on("message", async function(message) {
         if(!servers[message.guild.id]) servers[message.guild.id] = {
             queue: []
         };
-        /*    var validate = YTDL.validateURL(args[1]);
-            if(!validate) return message.channel.send("**Lien invalide.**")
- 
-            var info = YTDL.getInfo(args[1]);
-	    message.channel.send(`**${info.title} ajouté !**`) */
+
+            var noytblink_embedfr = new Discord.RichEmbed()
+                .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                .setDescription("Vous devez mettre un lien YouTube !")
+                .setColor("#FF0000")
+                .setFooter(foother)
+        var validate = YTDL.validateURL(args[1]);
+        if(!validate) return message.channel.send(noytblink_embedfr)
+
+        /* var info = YTDL.getInfo(args[1]);
+        message.channel.send(`**${info.title} ajouté !**`) */
         var server = servers[message.guild.id];
             var play_embedfr = new Discord.RichEmbed()
                 .setAuthor("Lancement de la musique :", message.author.avatarURL)
@@ -365,10 +396,16 @@ bot.on("message", async function(message) {
             if(!servers[message.guild.id]) servers[message.guild.id] = {
                 queue: []
             };
-        /*    var validate = YTDL.validateURL(args[1]);
-            if(!validate) return message.channel.send("**Lien invalide.**")
+
+                var noytblink_embedfr = new Discord.RichEmbed()
+                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                    .setDescription("Vous devez mettre un lien YouTube !")
+                    .setColor("#FF0000")
+                    .setFooter(foother)
+            var validate = YTDL.validateURL(args[1]);
+            if(!validate) return message.channel.send(noytblink_embedfr)
  
-            var info = YTDL.getInfo(args[1]);
+           /* var info = YTDL.getInfo(args[1]);
 	        message.channel.send(`**${info.title} ajouté !**`) */
             var server = servers[message.guild.id];
                 var play_embedfr = new Discord.RichEmbed()
@@ -571,16 +608,16 @@ bot.on("message", async function(message) {
                 .setDescription("End of the music sessions !")
                 .setColor("#1aff8c")
                 .setFooter(footheren)    
-            const stop = await message.channel.send(stop_embedfr);
-            await stop.react("🇫🇷");
-            await stop.react("🇬🇧");
-            const stoppannier = noinchannelstoperror.createReactionCollector((reaction, user) => user.id === message.author.id);
+            const stopmessage = await message.channel.send(stop_embedfr);
+            await stopmessage.react("🇫🇷");
+            await stopmessage.react("🇬🇧");
+            const stoppannier = stopmessage.createReactionCollector((reaction, user) => user.id === message.author.id);
             stoppannier.on('collect', async(reaction) => {
                 if (reaction.emoji.name === "🇫🇷") {
-                    noinchannelerror.edit(stop_embedfr);
+                    stopmessage.edit(stop_embedfr);
                 }      
                 if (reaction.emoji.name === "🇬🇧") {
-                    noinchannelerror.edit(stop_embeden);
+                    stopmessage.edit(stop_embeden);
                 }        
                 await reaction.remove(message.author.id);
             })
@@ -596,7 +633,7 @@ bot.on("message", async function(message) {
             member.removeRole(roleMute)
             message.channel.send(user.toString() + " a bien été unmute ✅")
             console.log(PREFIX +"unmute par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "unmute " + user.username.toString() + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "unmute " + user.username.toString() + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
       
             var unmute_embed = new Discord.RichEmbed()
                     .addField("Commande :", "UnMute")
@@ -619,7 +656,7 @@ bot.on("message", async function(message) {
             message.channel.send(member.toString() + " a bien été mute. ✅")
             member.addRole(roleMute)
             console.log(PREFIX +"mute par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "mute " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "mute " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
              
             var mute_embed = new Discord.RichEmbed()
                     .addField("Action :", "Mute")
@@ -636,7 +673,7 @@ bot.on("message", async function(message) {
         if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu ne peux exécuter cette commande. ❌");
         message.delete()
         console.log(PREFIX +"shelp par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-        member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "shelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+        member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "shelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         var language_embed = new Discord.RichEmbed()
             .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
             .setColor("#36393E")
@@ -748,7 +785,7 @@ bot.on("message", async function(message) {
         case "help":
         message.delete()
         console.log(PREFIX +"help par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-        member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "help`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+        member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "help`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         var language_embed = new Discord.RichEmbed()
             .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
             .setColor("#36393E")
@@ -770,7 +807,8 @@ bot.on("message", async function(message) {
             .setColor("#0000ff")
                 .addField(PREFIX + "botinfo", "**Grâce à cette commande, tu pourras savoir** __**mes info**__ !") 
                 .addField(PREFIX + "reseau", "**Avec cette commande tu pourras voir les __**réseau sociaux**__ **de mon créateur** !")
-                .addField(PREFIX + "traductionhelp", "**Pour affichier l'aide des** __**traductions**__ !")
+                .addField(PREFIX + "trad", "**Pour affichier l'aide des** __**traductions**__ !")
+                .addField(PREFIX + "userinfo", "**Grâce à cette commande, tu pourras savoir tes** __**informations**__ !")
                 .addField(PREFIX + "servinfo", "**Grâce à cette commande, tu pourras savoir les** __**informations du serveur**__ !")
                 .addField(PREFIX + "servlist", "**Grâce à cette commande, tu pourras savoir la** __**liste des serveurs où je suis.**__ !")
                 .addField(PREFIX + "ask", "**Si vous avez une question, utilisé cet commande** __**qui enverra un mp a mon créateur.**__ **tout spam/abus seront sanctionné d'une interdiction d'utilisation de commande** !")
@@ -798,7 +836,8 @@ bot.on("message", async function(message) {
             .setColor("#0000ff")
                 .addField(PREFIX + "botinfo", "**With this command, you will be able to know** __**my information**__ !") 
                 .addField(PREFIX + "reseau", "**With this command you will be able to see the** __**social networks**__ **of my creator** !")
-                .addField(PREFIX + "traductionhelp", "**With this command you will be able to see the __**translation panel**__ !")
+                .addField(PREFIX + "trad", "**With this command you will be able to see the __**translation panel**__ !")
+                .addField(PREFIX + "userinfo", "**Thanks to this command you can know your** __**informations**__ !")
                 .addField(PREFIX + "servinfo", "**With this command, you will be able to know the** __**information of the server**__ !")
                 .addField(PREFIX + "servlist", "**Thanks to this command, you will be able to know the** __** ist of the servers where I am.**__!")
                 .addField(PREFIX + "ask", "**If you have a question, use this command** __**which will send a mp to my creator.** __ **any spam / abuse will be punished with a prohibition of use of command** !")
@@ -870,7 +909,7 @@ bot.on("message", async function(message) {
             })
             member.addRole(rolekick)
             console.log(PREFIX +"kick par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "kick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "kick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 
             var kick_embed = new Discord.RichEmbed()
                     .addField("Action :", "Kick")
@@ -893,7 +932,7 @@ bot.on("message", async function(message) {
             member.removeRole(rolekick)
             member.addRole(rolemembre)
             console.log(PREFIX +"unkick par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "unkick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");             
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "unkick " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");             
             
             var unkick_embed = new Discord.RichEmbed()
                     .addField("Action :", "UnKick")
@@ -918,7 +957,7 @@ bot.on("message", async function(message) {
             })
             member.addRole(roleban)
             console.log(PREFIX +"ban par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "ban " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "ban " + user.username.toString() + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 
             var ban_embed = new Discord.RichEmbed()
                     .addField("Action :", "Bannissement")
@@ -941,7 +980,7 @@ bot.on("message", async function(message) {
             member.removeRole(roleban)
             member.addRole(rolemembre)
             console.log(PREFIX +"unban par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "unban " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "unban " + user.username.toString() +" `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 
             var unban_embed = new Discord.RichEmbed()
                 .addField("Action :", "UnBan")
@@ -961,7 +1000,7 @@ bot.on("message", async function(message) {
             }).then(messages => message.channel.bulkDelete(messagecount));
             message.delete()
             console.log(PREFIX +"purge par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "purge " + messagecount + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "purge " + messagecount + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
 
         case "reseau":
@@ -979,7 +1018,7 @@ bot.on("message", async function(message) {
             message.delete()
             message.channel.send(reseau_embed)
             console.log(PREFIX +"reseau par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "reseau`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "reseau`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
     	break;
       
         case "google":
@@ -994,7 +1033,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(google_embed)
             console.log(PREFIX +"google par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "google" + suffix_google + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "google" + suffix_google + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
 
         case "tradhelp":
@@ -1016,7 +1055,7 @@ bot.on("message", async function(message) {
             message.delete()
             message.channel.send(tradhelp_embed)
             console.log(PREFIX +"tradhelp par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradhelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradhelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;      
       
         case "tradenfr":
@@ -1031,7 +1070,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(tradenfr_embed)
             console.log(PREFIX +"tradenfr par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradenfr" + suffix_tradenfr + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradenfr" + suffix_tradenfr + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "tradfren":
@@ -1046,7 +1085,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(tradfren_embed)
             console.log(PREFIX +"tradfren par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradfren" + suffix_tradfren + "b`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradfren" + suffix_tradfren + "b`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "tradesfr":
@@ -1061,7 +1100,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(tradesfr_embed)
             console.log(PREFIX +"tradesfr par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradesfr" + suffix_tradesfr + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradesfr" + suffix_tradesfr + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "tradfres":
@@ -1076,7 +1115,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(tradfres_embed)
             console.log(PREFIX +"tradfres par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradfres" + suffix_tradfres + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradfres" + suffix_tradfres + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;      
       
         case "tradenes":
@@ -1091,7 +1130,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(tradenes_embed)
             console.log(PREFIX +"tradenes par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradenes" + suffix_tradenes + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");    
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradenes" + suffix_tradenes + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");    
         break;     
 
 	    case "tradesen":
@@ -1106,7 +1145,7 @@ bot.on("message", async function(message) {
                 .setTimestamp()
             message.channel.send(tradesen_embed)
             console.log(PREFIX +"tradesen par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradesen" + suffix_tradesen + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"); 
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "tradesen" + suffix_tradesen + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"); 
 	    break;        
 
         case "annonce@":
@@ -1122,7 +1161,7 @@ bot.on("message", async function(message) {
             member.guild.channels.find("name", "annonce").send("@everyone **Nouvelle annonce**")
             member.guild.channels.find("name", "annonce").send(newm_embed)
             console.log(PREFIX +"annonce@ par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "annonce@ + " + staffs.join(" ") + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "annonce@ + " + staffs.join(" ") + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
       
         case "annonce":
@@ -1137,7 +1176,7 @@ bot.on("message", async function(message) {
             message.delete();
             member.guild.channels.find("name", "annonce").send(nw_embed);
             console.log(PREFIX +"annonce par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "annonce " + staff.join(' ') + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "annonce " + staff.join(' ') + " `` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
 
         case "botinfo":
@@ -1167,20 +1206,20 @@ bot.on("message", async function(message) {
                 .setTimestamp()
                 .setFooter(foother)
             console.log(PREFIX +"botinfo par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "botinfo`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "botinfo`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
         break;
             
         case "install":
         // LOGS
 
             console.log(PREFIX +"install par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "install`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+            member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "install`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
 
         // Channel 
         
                 var channel_botlogs = "🤖bot-logs🤖";
                     
-                var channel_stafflogs = "staff-logs";
+                var channel_commandelogs = "commandes-logs";
         
                 var channel_vcs = "vcs-ilianbot";
         
@@ -1215,7 +1254,7 @@ bot.on("message", async function(message) {
                     .setColor("#0099ff")
                         .addField("Partie 1,", "**Les channels** !")
                         .addField("📄", "Pour créer le channel : #" + channel_botlogs)
-                        .addField("⚙", "Pour créer le channel : #" + channel_stafflogs)
+                        .addField("⚙", "Pour créer le channel : #" + channel_commandelogs)
                         .addField("🌐", "Pour créer le channel : #" + channel_vcs)
                         .addField("📛", "Pour créer le channel : #" + channel_ban)
                         .addField("🌪", "Pour créer le channel : #" + channel_kick)
@@ -1232,7 +1271,7 @@ bot.on("message", async function(message) {
                     .setColor("#4da6ff")
                         .addField("Part 1,", "**The channels** !")
                         .addField("📄", "To create the channel : #" + channel_botlogs)
-                        .addField("⚙", "To create the channel : #" + channel_stafflogs)
+                        .addField("⚙", "To create the channel : #" + channel_commandelogs)
                         .addField("🌐", "To create the channel : #" + channel_vcs)
                         .addField("📛", "To create the channel : #" + channel_ban)
                         .addField("🌪", "To create the channel : #" + channel_kick)
@@ -1268,9 +1307,9 @@ bot.on("message", async function(message) {
                     }
                     if (reaction.emoji.name === "⚙") {
                         await reaction.remove(message.author.id)
-                        if(member.guild.channels.find("name", channel_stafflogs)) return message.channel.send("Le channel ``#" + channel_stafflogs + "`` existe déjà !") 
-                        message.guild.createChannel(channel_stafflogs)
-                        message.channel.send("Le channel ``#" + channel_stafflogs + "`` à été créer avec succès !")
+                        if(member.guild.channels.find("name", channel_commandelogs)) return message.channel.send("Le channel ``#" + channel_commandelogs + "`` existe déjà !") 
+                        message.guild.createChannel(channel_commandelogs)
+                        message.channel.send("Le channel ``#" + channel_commandelogs + "`` à été créer avec succès !")
                     }
                     if (reaction.emoji.name === "🌐") {
                         await reaction.remove(message.author.id)
@@ -1341,9 +1380,9 @@ bot.on("message", async function(message) {
                             }
                             if (reaction.emoji.name === "⚙") {
                                 await reaction.remove(message.author.id)
-                                if(member.guild.channels.find("name", channel_stafflogs)) return message.channel.send("The channel ``#" + channel_stafflogs + "`` already exists !") 
-                                message.guild.createChannel(channel_stafflogs)
-                                message.channel.send("The channel ``#" + channel_stafflogs + "`` was successfully creating !")
+                                if(member.guild.channels.find("name", channel_commandelogs)) return message.channel.send("The channel ``#" + channel_commandelogs + "`` already exists !") 
+                                message.guild.createChannel(channel_commandelogs)
+                                message.channel.send("The channel ``#" + channel_commandelogs + "`` was successfully creating !")
                             }
                             if (reaction.emoji.name === "🌐") {
                                 await reaction.remove(message.author.id)
@@ -1398,7 +1437,7 @@ bot.on("message", async function(message) {
 
             case "servinfo":
                 console.log(PREFIX +"servinfo par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-                member.guild.channels.find("name", "staff-logs").send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "servinfo`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
+                member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "servinfo`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 var load1_embed = new Discord.RichEmbed()
                     .addField(':clock2: Chargement en cours.', "Merci de patienter quelques instants !")
                 message.channel.send(load1_embed).then(message => message.edit(load2_embed)).then(message => message.edit(load3_embed)).then(message => message.edit(load4_embed)).then(message => message.edit(servinfo_embed));
@@ -1423,6 +1462,8 @@ bot.on("message", async function(message) {
             break;
             
             case "servlist":
+                console.log(PREFIX +"servlist par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+                member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "servlist`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                 var langage_embed = new Discord.RichEmbed()
                     .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
                     .setColor("#36393E")
@@ -1457,6 +1498,8 @@ bot.on("message", async function(message) {
 
             case "modehelp":
                 if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("Tu n'as pas la permission d'exécuter la commande. :x:");
+                    console.log(PREFIX +"modehelp par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+                    member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "modehelp`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
                     var langage_embed = new Discord.RichEmbed()
                         .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
                         .setColor("#36393E")
@@ -1508,24 +1551,70 @@ bot.on("message", async function(message) {
                 .setFooter(foother)
                 .setColor("#FE9A2E")
                 message.client.users.get("193092758267887616").send(ask_embed)
+                message.delete();
+                message.channel.reply("votre question/suggestion/report a bien été envoyé !")
+                console.log(PREFIX +"ask par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+                member.guild.channels.find("name", stafflogchannelname).send("**" + message.author.username + "#" + message.author.discriminator + "** a utilisé ``" + PREFIX + "ask " + suffix_ask + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``");
             break;
-        
+
+            case "userinfo":
+            message.delete()
+                var langage_embed = new Discord.RichEmbed()
+                    .setTitle("🛠🇫🇷Sélecteur de langue/Language selector🇬🇧🛠 !")
+                    .setColor("#36393E")
+                    .setFooter(foother + " / " + footheren)
+                    .setTimestamp() 
+                var userinfofr_embed = new Discord.RichEmbed()
+                    .setAuthor("Vos informations", message.author.avatarURL)
+                        .addField("Votre ID :", message.author.id)
+                        .addField("Votre Discriminateur :", message.author.discriminator, true)
+                        .addField("Votre nom Discord :", message.author.username, true)
+                        .addField("Votre compte a été créé le :", message.author.createdAt)
+                    .setColor("#58D3F7")
+                    .setThumbnail(message.author.avatarURL)
+                    .setFooter(foother)
+                    .setTimestamp()
+                var userinfoen_embed = new Discord.RichEmbed()
+                    .setAuthor("Your informations", message.author.avatarURL)
+                        .addField("Your ID :", message.author.id)
+                        .addField("Your Discriminateur :", message.author.discriminator, true)
+                        .addField("Your discord name :", message.author.username, true)
+                        .addField("Your account was created on :", message.author.createdAt)
+                    .setColor("#0174DF")
+                    .setThumbnail(message.author.avatarURL)
+                    .setFooter(foother)
+                    .setTimestamp()
+            const userinfomessage = await message.channel.send(langage_embed);
+            await userinfomessage.react("🇫🇷");
+            await userinfomessage.react("🇬🇧");
+            const userinfopannier = userinfomessage.createReactionCollector((reaction, user) => user.id === message.author.id);
+            userinfopannier.on('collect', async(reaction) => {
+                if (reaction.emoji.name === "🇫🇷") {
+                    userinfomessage.edit(userinfofr_embed)
+                }
+                if (reaction.emoji.name === "🇬🇧") {
+                    userinfomessage.edit(userinfoen_embed)
+                }
+                await reaction.remove(message.author.id)
+            })
+        break;
+
         /*    case "majinfo":
                 if (message.author.id === "193092758267887616") {
                         var maj_embed = new Discord.RichEmbed()
                         .setAuthor("Update " + version, message.author.avatarURL)
-                            .addField("🇫🇷Petite Update🇫🇷,", `**Ajout de 3 commandes et grosse modification de "l'installateur", les mentions ont été retirée du salon #staffs-logs. Les commandes *servlist opérationnelle ainsi que *ask & *modehelp qui vous expliquera le système de modération**.`)
-                            .addField("🇬🇧Little Update🇬🇧,", `**Addition of 3 commands and big modification of the "installer", the mentions were removed from the salon #staffs-logs. The *servlist operational commands as well as *ask & *modehelp which will explain the moderation system**.`)
-                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `**Además de 3 pedidos y una gran modificación del "instalador", las menciones fueron eliminadas de los registros del personal del salón. Los comandos operativos *servlist así como *ask & *modehelp que explicarán el sistema de moderación**.`)
+                            .addField("🇫🇷Petite Update🇫🇷,", `__**LA V.1.3.0**__ **!!!! Sinon le stop est opérationnel, des nouvelles commandes ont fait apparition-leur apparition, ( un *userinfo, *s pour le skip et *p pour le play) et quelque faute ont été corrigés dans le menu d'aide**.`)
+                            .addField("🇬🇧Little Update🇬🇧,", `*__**THE V.1.3.0**__ **!!!! Otherwise, the shutdown is operational, new commands are popping up, ( a* userinfo, *s for skip and  p for the game ) and some faults have been corrected in the help menu**.`)
+                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `__**LA V.1.3.0**__ **!!!! De lo contrario, la parada está operativa, han aparecido nuevos comandos : su apariencia, (a *userinfo, *s para el skip y *p para play) y algunos errores han sido corregidos en el menú de ayuda**.`)
                         .setColor("#00FF6F")
-                        .setFooter("Google trad comme d'hab ! " + version)
+                        .setFooter("Cette fois c'étais pas google trad :o ! " + version)
                         .setThumbnail(message.author.avatarURL)
                         .setTimestamp()
                     bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
                     message.delete()
                 }
             break; 
-
+	    
    /*     case "changeprefix":
             if(!prefixes[message.guild.id]){
                 prefixes[message.guild.id] = {
