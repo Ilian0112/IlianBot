@@ -260,7 +260,11 @@ bot.on("message", async function(message) {
         if(!servers[message.guild.id]) servers[message.guild.id] = {
             queue: []
         };
-
+            var validate = YTDL.validateURL(args[1]);
+            if(!validate) return message.channel.send("**Lien invalide.**")
+ 
+            var info = YTDL.getInfo(args[1]);
+	    message.channel.send(`**${info.title} ajouté !**`)
         var server = servers[message.guild.id];
             var play_embedfr = new Discord.RichEmbed()
                 .setAuthor("Lancement de la musique :", message.author.avatarURL)
@@ -387,11 +391,12 @@ bot.on("message", async function(message) {
             console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
             return;
             }
-            const serverQueue = queue.get(message.guild.id);
+          /*  const serverQueue = queue.get(message.guild.id);
             if(server.dispatcher) server.dispatcher.end()
             if(!message.guild.voiceConnection) message.member.voiceChannel.leave().then(function(connection) {
                 stop(connection, message) 
-            }); 
+            }); */
+	    message.member.voiceChannel.leave();
             var stop_embedfr = new Discord.RichEmbed()
                 .setAuthor("⚠IlianBOT - Musique⚠", message.author.avatarURL)
                 .setDescription("Fin de la sessions de musique !")
