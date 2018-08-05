@@ -167,10 +167,10 @@ bot.on("guildMemberAdd", function(message) {
     message.addRole(message.guild.roles.find("name", "Membre"));
 });
     
-bot.on("guildMemberRemove", function(message) {
+/*bot.on("guildMemberRemove", function(message) {
     message.guild.channels.find("name", "🤖bot-logs🤖").send("A bientôt " + message.toString() + " sur ``" + message.guild.name + "`` !");
 });
-    
+    */
     
 bot.on("message", async function(message) {
     if (message.author.equals(bot.user)) return;
