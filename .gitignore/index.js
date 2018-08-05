@@ -168,13 +168,6 @@ bot.on("guildMemberAdd", function(message) {
 });
     
 bot.on("guildMemberRemove", function(message) {
-        var leave_embed = new Discord.RichEmbed()
-            .setAuthor("Départ :", message.guild.avatarURL)
-            .setDescription("A bientôt @" + message.user.username + "#" + message.user.discriminator + " sur ``" + message.guild.name + "`` !")
-            .setColor("#3333cc")
-            .setThumbnail(message.user.avatarURL)
-            .setTimestamp()
-    message.guild.channels.find("name", "🤖bot-logs🤖").send(leave_embed);
     message.guild.channels.find("name", "🤖bot-logs🤖").send("A bientôt " + message.toString() + " sur ``" + message.guild.name + "`` !");
 });
     
