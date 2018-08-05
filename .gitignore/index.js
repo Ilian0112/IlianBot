@@ -10,7 +10,7 @@ const bot = new Discord.Client();
 //
 
 // BOT INFO
-const version = "V.1.3.0"
+const version = "V.1.3.1"
 const PREFIX = "*";
 //
 
@@ -293,18 +293,18 @@ bot.on("message", async function(message) {
         message.channel.send(`**${info.title} ajouté !**`) */
         var server = servers[message.guild.id];
             var play_embedfr = new Discord.RichEmbed()
-                .setAuthor("Lancement de la musique :", message.author.avatarURL)
-                    .addField("Titre", "[**EN DEV**](" + args[1] + ")")
+                .setAuthor("Musique ajoutée :", message.author.avatarURL)
+                    .addField("Titre", `[**${info.title}**](` + args[1] + ")")
                     .addField("Uploader par", "**EN DEV**", true)
-                    .addField("Lancer par", message.author.toString(), true)
+                    .addField("Ajoutée par", message.author.toString(), true)
                     .addField("Durée: EN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
                 .setColor("#6495ED")
                 .setFooter(foother)
             var play_embeden = new Discord.RichEmbed()
-                .setAuthor("Launch of the music :", message.author.avatarURL)
-                    .addField("Title", "[**IN DEV**](" + args[1] + ")")
+                .setAuthor("Music added :", message.author.avatarURL)
+                    .addField("Title", `[**${info.title}**](` + args[1] + ")")
                     .addField("Upload by", "**IN DEV**", true)
-                    .addField("Start by", message.author.toString(), true)
+                    .addField("Added by", message.author.toString(), true)
                     .addField("Length: IN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
                 .setColor("#6666ff")
                 .setFooter(footheren)
@@ -403,22 +403,22 @@ bot.on("message", async function(message) {
            /* var info = YTDL.getInfo(args[1]);
 	        message.channel.send(`**${info.title} ajouté !**`) */
             var server = servers[message.guild.id];
-                var play_embedfr = new Discord.RichEmbed()
-                    .setAuthor("Lancement de la musique :", message.author.avatarURL)
-                        .addField("Titre", "[**EN DEV**](" + args[1] + ")")
-                        .addField("Uploader par", "**EN DEV**", true)
-                        .addField("Lancer par", message.author.toString(), true)
-                        .addField("Durée: EN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
-                    .setColor("#6495ED")
-                    .setFooter(foother)
-                var play_embeden = new Discord.RichEmbed()
-                    .setAuthor("Launch of the music :", message.author.avatarURL)
-                        .addField("Title", "[**IN DEV**](" + args[1] + ")")
-                        .addField("Upload by", "**IN DEV**", true)
-                        .addField("Start by", message.author.toString(), true)
-                        .addField("Length: IN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
-                    .setColor("#6666ff")
-                    .setFooter(footheren)
+		    var play_embedfr = new Discord.RichEmbed()
+			.setAuthor("Musique ajoutée :", message.author.avatarURL)
+			    .addField("Titre", `[**${info.title}**](` + args[1] + ")")
+			    .addField("Uploader par", "**EN DEV**", true)
+			    .addField("Ajoutée par", message.author.toString(), true)
+			    .addField("Durée: EN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
+			.setColor("#6495ED")
+			.setFooter(foother)
+		    var play_embeden = new Discord.RichEmbed()
+			.setAuthor("Music added :", message.author.avatarURL)
+			    .addField("Title", `[**${info.title}**](` + args[1] + ")")
+			    .addField("Upload by", "**IN DEV**", true)
+			    .addField("Added by", message.author.toString(), true)
+			    .addField("Length: IN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
+			.setColor("#6666ff")
+			.setFooter(footheren)
             const playpreac = await message.channel.send(play_embedfr);
             await playpreac.react("🇫🇷");
             await playpreac.react("🇬🇧");
@@ -1635,11 +1635,11 @@ bot.on("message", async function(message) {
                 if (message.author.id === "193092758267887616") {
                         var maj_embed = new Discord.RichEmbed()
                         .setAuthor("Update " + version, message.author.avatarURL)
-                            .addField("🇫🇷Petite Update🇫🇷,", `__**LA V.1.3.0**__ **!!!! Sinon le stop est opérationnel, des nouvelles commandes ont fait apparition-leur apparition, ( un *userinfo, *s pour le skip et *p pour le play) et quelque faute ont été corrigés dans le menu d'aide**.`)
-                            .addField("🇬🇧Little Update🇬🇧,", `*__**THE V.1.3.0**__ **!!!! Otherwise, the shutdown is operational, new commands are popping up, ( a* userinfo, *s for skip and  p for the game ) and some faults have been corrected in the help menu**.`)
-                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `__**LA V.1.3.0**__ **!!!! De lo contrario, la parada está operativa, han aparecido nuevos comandos : su apariencia, (a *userinfo, *s para el skip y *p para play) y algunos errores han sido corregidos en el menú de ayuda**.`)
+                            .addField("🇫🇷Petite Update🇫🇷,", `**Le bug de toutes les commandes a été réglé, l'embed du play a subi une légère modificication et les "staff-logs" ce sont transformer en "commandes-logs" et sont maintenant relié à tous les serveurs discord ou le bot est. ( Tout ce que vous ferez avec, je le verrai :o ) **.`)
+                            .addField("🇬🇧Little Update🇬🇧,", `**The bug of all the commandes was settled, the embed of the play underwent a light one modificication and "staff-logs" they are to transform into "commandes-logs" and are now connected with all the waiters discord or the malformed is. ( All that you will make with, I shall see him :o )**.`)
+                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `**El bug de todos los pedidos(mandos) ha sido ajustado, el embed del play sufrió un ligero modificication y "staff-logs" esto son transformar "commandes-logs" y ahora son unidos a todos los camareros discord o el deforme es. ( Todo lo que usted hará con, lo veré :o )**.`)
                         .setColor("#00FF6F")
-                        .setFooter("Cette fois c'étais pas google trad :o ! " + version)
+                        .setFooter("Pourquoi de l'espagnol ? Parce que un/des espagnol sont sur des servuers ou le bot est ( serveur anglais d'ou anglais aussi) ! " + version)
                         .setThumbnail(message.author.avatarURL)
                         .setTimestamp()
                     bot.channels.findAll('name', 'bot-update').map(channel => channel.send(maj_embed));
