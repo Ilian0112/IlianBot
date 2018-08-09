@@ -130,7 +130,7 @@ bot.on("message", async function (message) {
             .setFooter("Ilian's Community | IlianBOT - " + version)
             .setTimestamp()
         message.delete()
-        return bot.channels.send(ban_embed);
+        return message.channels.send(ban_embed);
     }
     {
         const vcs_embed = new Discord.RichEmbed()
