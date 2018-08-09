@@ -121,7 +121,7 @@ bot.on("message", async function (message) {
         message.delete()
         return bot.channels.findAll("name", "vcs-ilianbot").map(channel => channel.send(cofondadracobot_embed));
     } 
-    if (message.author.id === "321030467891494913") {
+   /* if (message.author.id === "") {
         const ban_embed = new Discord.RichEmbed()
             .setColor("#2A00FF")
             .setAuthor("Banni(e) – VCS", message.guild.iconURL)
@@ -131,7 +131,7 @@ bot.on("message", async function (message) {
             .setTimestamp()
         message.delete()
         return message.channels.send(ban_embed);
-    }
+    } */
     {
         const vcs_embed = new Discord.RichEmbed()
             .setColor("#2A00FF")
