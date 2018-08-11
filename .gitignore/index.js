@@ -996,7 +996,7 @@ bot.on("message", async function(message) {
                     .addField(emoji_insta + "Instagram", "[@supersfanne](https://www.instagram.com/supersfanne/)", true) 
                     .addField(emoji_twitter + "Twitter", "[@SupersFanne](https://twitter.com/supersfanne)", true)
                     .addField(emoji_facebook + "Facebook", "[@Supers-Fanne](https://www.facebook.com/profile.php?id=100012028577867)", true)
-                    .addField(emoji_snap + "Snapchat", "[supers_fanne](https://app.snapchat.com/web/deeplink/snapcode?username=supers_fanne&type=SVG&size=240)", true)
+                    .addField(emoji_snap + "Snapchat", "[supers_fanne](https://www.snapchat.com/add/supers_fanne)", true)
 	    	    .addField(emoji_youtube + "YouTube", "[Supers Fanne](https://www.youtube.com/channel/UCc-OIiC2bDwFbEUXmsy_khg/?sub_confirmation=1)", true)
                 .setFooter("Demande de @" + message.author.username + "#" + message.author.discriminator + " !")
                 .setAuthor("Réseaux Sociaux de mon créateur")
