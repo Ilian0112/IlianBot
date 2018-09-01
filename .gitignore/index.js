@@ -163,7 +163,7 @@ bot.on("guildMemberAdd", function(message) {
             .setColor("#3333cc")
             .setThumbnail(message.user.avatarURL)
             .setTimestamp()
-    message.guild.channels.find("name", "🤖bot-logs🤖").send(join_embed);
+    //message.guild.channels.find("name", "🤖bot-logs🤖").send(join_embed);
     message.addRole(message.guild.roles.find("name", "Membre"));
 });
     
