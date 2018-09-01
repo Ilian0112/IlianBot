@@ -163,7 +163,7 @@ bot.on("guildMemberAdd", function(message) {
             .setColor("#3333cc")
             .setThumbnail(message.user.avatarURL)
             .setTimestamp()
-    //message.guild.channels.find("name", "🤖bot-logs🤖").send(join_embed);
+    message.guild.channels.find("name", "🤖bot-logs🤖").send(join_embed);
     message.addRole(message.guild.roles.find("name", "Membre"));
 });
     
@@ -212,96 +212,101 @@ bot.on("message", async function(message) {
     switch (args[0].toLowerCase()) {
         case "play":
         case "p":
-        if (!args[1]) {  
-                var nolink_embedfr = new Discord.RichEmbed()
+            if (!args[1]) {  
+                    var nolink_embedfr = new Discord.RichEmbed()
+                        .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                        .setDescription("Vous n'avez pas entrez de lien !")
+                        .setColor("#FF0000")
+                        .setFooter(foother)
+                    var nolink_embeden = new Discord.RichEmbed()
+                        .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
+                        .setDescription("You have not entered a link !")
+                        .setColor("#FF0000")
+                        .setFooter(footheren)    
+                const nolinkerror = await message.channel.send(nolink_embedfr);
+                await nolinkerror.react("🇫🇷");
+                await nolinkerror.react("🇬🇧");
+                const nolinkerrorpannier = nolinkerror.createReactionCollector((reaction, user) => user.id === message.author.id);
+                nolinkerrorpannier.on('collect', async(reaction) => {
+                    if (reaction.emoji.name === "🇫🇷") {
+                        nolinkerror.edit(nolink_embedfr);
+                    }      
+                    if (reaction.emoji.name === "🇬🇧") {
+                        nolinkerror.edit(nolink_embeden);
+                    }        
+                    await reaction.remove(message.author.id);
+                })
+                console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+                bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "play " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
+                console.log(message.author.username + " à oubliée de mettre un liens")
+                return;
+            }
+            if(!message.member.voiceChannel) {
+                    var noinchannel_embedfr = new Discord.RichEmbed()
+                        .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
+                        .setDescription("Vous n'êtes pas dans un salon vocal !")
+                        .setColor("#FF0000")
+                        .setFooter(foother)
+                    var noinchannel_embeden = new Discord.RichEmbed()
+                        .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
+                        .setDescription("You are not in a vocal channel !")
+                        .setColor("#FF0000")
+                        .setFooter(footheren)    
+                const noinchannelerror = await message.channel.send(noinchannel_embedfr);
+                await noinchannelerror.react("🇫🇷");
+                await noinchannelerror.react("🇬🇧");
+                const noinchannelerrorpannier = noinchannelerror.createReactionCollector((reaction, user) => user.id === message.author.id);
+                noinchannelerrorpannier.on('collect', async(reaction) => {
+                    if (reaction.emoji.name === "🇫🇷") {
+                        noinchannelerror.edit(noinchannel_embedfr);
+                    }      
+                    if (reaction.emoji.name === "🇬🇧") {
+                        noinchannelerror.edit(noinchannel_embeden);
+                    }        
+                    await reaction.remove(message.author.id);
+                })
+                console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
+                bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "play " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
+                console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
+                return;
+            }
+
+            if(!servers[message.guild.id]) servers[message.guild.id] = {
+                queue: []
+            };
+
+                var noytblink_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                    .setDescription("Vous n'avez pas entrez de lien !")
+                    .setDescription("Vous devez mettre un lien YouTube !")
                     .setColor("#FF0000")
                     .setFooter(foother)
-                var nolink_embeden = new Discord.RichEmbed()
-                    .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
-                    .setDescription("You have not entered a link !")
-                    .setColor("#FF0000")
-                    .setFooter(footheren)    
-            const nolinkerror = await message.channel.send(nolink_embedfr);
-            await nolinkerror.react("🇫🇷");
-            await nolinkerror.react("🇬🇧");
-            const nolinkerrorpannier = nolinkerror.createReactionCollector((reaction, user) => user.id === message.author.id);
-            nolinkerrorpannier.on('collect', async(reaction) => {
-                if (reaction.emoji.name === "🇫🇷") {
-                    nolinkerror.edit(nolink_embedfr);
-                }      
-                if (reaction.emoji.name === "🇬🇧") {
-                    nolinkerror.edit(nolink_embeden);
-                }        
-                await reaction.remove(message.author.id);
-            })
-            console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "play " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
-            console.log(message.author.username + " à oubliée de mettre un liens")
-            return;
-        }
-        if(!message.member.voiceChannel) {
-                var noinchannel_embedfr = new Discord.RichEmbed()
-                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                    .setDescription("Vous n'êtes pas dans un salon vocal !")
-                    .setColor("#FF0000")
-                    .setFooter(foother)
-                var noinchannel_embeden = new Discord.RichEmbed()
-                    .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
-                    .setDescription("You are not in a vocal channel !")
-                    .setColor("#FF0000")
-                    .setFooter(footheren)    
-            const noinchannelerror = await message.channel.send(noinchannel_embedfr);
-            await noinchannelerror.react("🇫🇷");
-            await noinchannelerror.react("🇬🇧");
-            const noinchannelerrorpannier = noinchannelerror.createReactionCollector((reaction, user) => user.id === message.author.id);
-            noinchannelerrorpannier.on('collect', async(reaction) => {
-                if (reaction.emoji.name === "🇫🇷") {
-                    noinchannelerror.edit(noinchannel_embedfr);
-                }      
-                if (reaction.emoji.name === "🇬🇧") {
-                    noinchannelerror.edit(noinchannel_embeden);
-                }        
-                await reaction.remove(message.author.id);
-            })
-            console.log(PREFIX +"play par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "play " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
-            console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
-            return;
-        }
+            var validate = YTDL.validateURL(args[1]);
+            if(!validate) return message.channel.send(noytblink_embedfr)
 
-        if(!servers[message.guild.id]) servers[message.guild.id] = {
-            queue: []
-        };
+            // Récupération des informations
+            let musicinfo = await YTDL.getInfo(args[1])
+            
+            message.channel.send(`**Vous avez bien ajouté** __**${musicinfo.title}**__ **à la file d'attente !**✅`)
 
-            var noytblink_embedfr = new Discord.RichEmbed()
-                .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                .setDescription("Vous devez mettre un lien YouTube !")
-                .setColor("#FF0000")
-                .setFooter(foother)
-        var validate = YTDL.validateURL(args[1]);
-        if(!validate) return message.channel.send(noytblink_embedfr)
-
-        /* var info = YTDL.getInfo(args[1]);
-        message.channel.send(`**${info.title} ajouté !**`) */
-        var server = servers[message.guild.id];
+            var server = servers[message.guild.id];
             var play_embedfr = new Discord.RichEmbed()
                 .setAuthor("Musique ajoutée :", message.author.avatarURL)
-                    .addField("Titre", `[**EN DEV**](` + args[1] + ")")
-                    .addField("Uploader par", "**EN DEV**", true)
+                    .addField("Titre", `[**${musicinfo.title}**](${musicinfo.video_url})`)
+                    .addField(`Uploader par`, `**EN DEV**`, true)
                     .addField("Ajoutée par", message.author.toString(), true)
-                    .addField("Durée: EN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
+                    .addField(`Durée: **EN DEV**`, "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
                 .setColor("#6495ED")
                 .setFooter(foother)
+                .setThumbnail(`${musicinfo.thumbnail_url}`)
             var play_embeden = new Discord.RichEmbed()
                 .setAuthor("Music added :", message.author.avatarURL)
-                    .addField("Title", `[**EN DEV**](` + args[1] + ")")
+                    .addField("Titre", `[**${musicinfo.title}**](${musicinfo.video_url})`)
                     .addField("Upload by", "**IN DEV**", true)
                     .addField("Added by", message.author.toString(), true)
                     .addField("Length: IN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
                 .setColor("#6666ff")
                 .setFooter(footheren)
+                .setThumbnail(`${musicinfo.thumbnail_url}`)
             const playreac = await message.channel.send(play_embedfr);
             await playreac.react("🇫🇷");
             await playreac.react("🇬🇧");
