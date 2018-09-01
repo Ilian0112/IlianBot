@@ -395,7 +395,7 @@ bot.on("message", async function(message) {
             if(!validate) return message.channel.send(noytblink_embedfr)
  
            /* var info = YTDL.getInfo(args[1]);
-	        message.channel.send(`**${info.title} ajouté !**`) */
+	        message.channel.send(`**${info.title} ajouté !**`) 
             var server = servers[message.guild.id];
 		    var play_embedfr = new Discord.RichEmbed()
 			.setAuthor("Musique ajoutée :", message.author.avatarURL)
