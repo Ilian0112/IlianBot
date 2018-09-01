@@ -210,6 +210,7 @@ bot.on("message", async function(message) {
     var user = message.mentions.users.first();
 
     switch (args[0].toLowerCase()) {
+	case "p":
         case "play":
         if (!args[1]) {  
                 var nolink_embedfr = new Discord.RichEmbed()
@@ -321,7 +322,7 @@ bot.on("message", async function(message) {
             });
         break;
     
-        case "p":
+      /*  case "p":
             if (!args[1]) {  
                     var nolink_embedfr = new Discord.RichEmbed()
                         .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
@@ -430,7 +431,7 @@ bot.on("message", async function(message) {
             if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
                 play(connection, message) 
             });
-        break;
+        break; */
 
         case "skip":
             if(!message.member.voiceChannel) {
