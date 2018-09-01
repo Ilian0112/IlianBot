@@ -210,8 +210,8 @@ bot.on("message", async function(message) {
     var user = message.mentions.users.first();
 
     switch (args[0].toLowerCase()) {
-	case "p":
         case "play":
+        case "p":
         if (!args[1]) {  
                 var nolink_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
@@ -321,119 +321,9 @@ bot.on("message", async function(message) {
                 play(connection, message) 
             });
         break;
-    
-      /*  case "p":
-            if (!args[1]) {  
-                    var nolink_embedfr = new Discord.RichEmbed()
-                        .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                        .setDescription("Vous n'avez pas entrez de lien !")
-                        .setColor("#FF0000")
-                        .setFooter(foother)
-                    var nolink_embeden = new Discord.RichEmbed()
-                        .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
-                        .setDescription("You have not entered a link !")
-                        .setColor("#FF0000")
-                        .setFooter(footheren)    
-                const noplinkerror = await message.channel.send(nolink_embedfr);
-                await noplinkerror.react("🇫🇷");
-                await noplinkerror.react("🇬🇧");
-                const nolinpkerrorpannier = noplinkerror.createReactionCollector((reaction, user) => user.id === message.author.id);
-                nolinpkerrorpannier.on('collect', async(reaction) => {
-                    if (reaction.emoji.name === "🇫🇷") {
-                        noplinkerror.edit(nolink_embedfr);
-                    }      
-                    if (reaction.emoji.name === "🇬🇧") {
-                        noplinkerror.edit(nolink_embeden);
-                    }        
-                    await reaction.remove(message.author.id);
-                })
-                console.log(PREFIX +"p par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-                bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "p " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
-                console.log(message.author.username + " à oubliée de mettre un liens")
-                return;
-            }
-            if(!message.member.voiceChannel) {
-                    var noinchannel_embedfr = new Discord.RichEmbed()
-                        .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                        .setDescription("Vous n'êtes pas dans un salon vocal !")
-                        .setColor("#FF0000")
-                        .setFooter(foother)
-                    var noinchannel_embeden = new Discord.RichEmbed()
-                        .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
-                        .setDescription("You are not in a vocal channel !")
-                        .setColor("#FF0000")
-                        .setFooter(footheren)    
-                const noinpchannelerror = await message.channel.send(noinchannel_embedfr);
-                await noinpchannelerror.react("🇫🇷");
-                await noinpchannelerror.react("🇬🇧");
-                const noinpchannelerrorpannier = noinpchannelerror.createReactionCollector((reaction, user) => user.id === message.author.id);
-                noinpchannelerrorpannier.on('collect', async(reaction) => {
-                    if (reaction.emoji.name === "🇫🇷") {
-                        noinpchannelerror.edit(noinchannel_embedfr);
-                    }      
-                    if (reaction.emoji.name === "🇬🇧") {
-                        noinpchannelerror.edit(noinchannel_embeden);
-                    }        
-                    await reaction.remove(message.author.id);
-                })
-                console.log(PREFIX +"p par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-                bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "p " + args + "`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
-                console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
-                return;
-            }
-
-            if(!servers[message.guild.id]) servers[message.guild.id] = {
-                queue: []
-            };
-
-                var noytblink_embedfr = new Discord.RichEmbed()
-                    .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                    .setDescription("Vous devez mettre un lien YouTube !")
-                    .setColor("#FF0000")
-                    .setFooter(foother)
-            var validate = YTDL.validateURL(args[1]);
-            if(!validate) return message.channel.send(noytblink_embedfr)
- 
-           /* var info = YTDL.getInfo(args[1]);
-	        message.channel.send(`**${info.title} ajouté !**`) 
-            var server = servers[message.guild.id];
-		    var play_embedfr = new Discord.RichEmbed()
-			.setAuthor("Musique ajoutée :", message.author.avatarURL)
-			    .addField("Titre", `[**EN DEV**](` + args[1] + ")")
-			    .addField("Uploader par", "**EN DEV**", true)
-			    .addField("Ajoutée par", message.author.toString(), true)
-			    .addField("Durée: EN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
-			.setColor("#6495ED")
-			.setFooter(foother)
-		    var play_embeden = new Discord.RichEmbed()
-			.setAuthor("Music added :", message.author.avatarURL)
-			    .addField("Title", `[**EN DEV**](` + args[1] + ")")
-			    .addField("Upload by", "**IN DEV**", true)
-			    .addField("Added by", message.author.toString(), true)
-			    .addField("Length: IN DEV", "```css\n▶ 🔘──────────────────────────── 00:00:00\n```")
-			.setColor("#6666ff")
-			.setFooter(footheren)
-            const playpreac = await message.channel.send(play_embedfr);
-            await playpreac.react("🇫🇷");
-            await playpreac.react("🇬🇧");
-            const playpreacpannier = playpreac.createReactionCollector((reaction, user) => user.id === message.author.id);
-            playpreacpannier.on('collect', async(reaction) => {
-            if (reaction.emoji.name === "🇫🇷") {
-                playpreac.edit(play_embedfr);
-            }      
-            if (reaction.emoji.name === "🇬🇧") {
-                playpreac.edit(play_embeden);
-            }        
-            await reaction.remove(message.author.id);
-            })        
-            server.queue.push(args[1]);
-    
-            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then(function(connection) {
-                play(connection, message) 
-            });
-        break; */
 
         case "skip":
+        case "s":
             if(!message.member.voiceChannel) {
                 var noinchannel_embedfr = new Discord.RichEmbed()
                     .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
@@ -491,65 +381,6 @@ bot.on("message", async function(message) {
             console.log(PREFIX +"skip par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
             bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "skip`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
         break;  
-
-        case "s":
-            if(!message.member.voiceChannel) {
-                    var noinchannel_embedfr = new Discord.RichEmbed()
-                        .setAuthor("⚠IlianBOT Musique - Erreur⚠", message.author.avatarURL)
-                        .setDescription("Vous n'êtes pas dans un salon vocal !")
-                        .setColor("#FF0000")
-                        .setFooter(foother)
-                    var noinchannel_embeden = new Discord.RichEmbed()
-                        .setAuthor("⚠IlianBOT Music - Error⚠", message.author.avatarURL)
-                        .setDescription("You are not in a vocal channel !")
-                        .setColor("#FF0000")
-                        .setFooter(footheren)    
-                const noinchannelserror = await message.channel.send(noinchannel_embedfr);
-                await noinchannelserror.react("🇫🇷");
-                await noinchannelserror.react("🇬🇧");
-                const noinchannelserrorpannier = noinchannelserror.createReactionCollector((reaction, user) => user.id === message.author.id);
-                noinchannelserrorpannier.on('collect', async(reaction) => {
-                    if (reaction.emoji.name === "🇫🇷") {
-                        noinchannelserror.edit(noinchannel_embedfr);
-                    }      
-                    if (reaction.emoji.name === "🇬🇧") {
-                        noinchannelserror.edit(noinchannel_embeden);
-                    }        
-                    await reaction.remove(message.author.id);
-                })
-                console.log(PREFIX +"s par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-                bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "s`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
-                console.log(message.author.username + " à oubliée d'allée dans un salon vocal.") 
-                return;
-            }
-            var server = servers[message.guild.id];
-                var skip_embedfr = new Discord.RichEmbed()
-                    .setAuthor("⚠IlianBOT - Musique⚠", message.author.avatarURL)
-                    .setDescription("Passage à la musique suivante !")
-                    .setColor("#ffd11a")
-                    .setFooter(foother)
-                var skip_embeden = new Discord.RichEmbed()
-                    .setAuthor("⚠IlianBOT - Music⚠", message.author.avatarURL)
-                    .setDescription("Switch to the next music !")
-                    .setColor("#b38f00")
-                    .setFooter(footheren)    
-            const skipserror = await message.channel.send(skip_embedfr);
-            await skipserror.react("🇫🇷");
-            await skipserror.react("🇬🇧");
-            const skiperrsorpannier = skipserror.createReactionCollector((reaction, user) => user.id === message.author.id);
-            skiperrsorpannier.on('collect', async(reaction) => {
-                if (reaction.emoji.name === "🇫🇷") {
-                    skipserror.edit(skip_embedfr);
-                }      
-                if (reaction.emoji.name === "🇬🇧") {
-                    skipserror.edit(skip_embeden);
-                }        
-                await reaction.remove(message.author.id);
-            })
-            if(server.dispatcher) server.dispatcher.end();
-            console.log(PREFIX +"skip par " + message.author.username + " !\nProvenance du message : " + message.guild.name)
-            bot.channels.findAll("name", "commandes-logs").map(channel => channel.send("**" + message.author.username + "#" + message.author.discriminator + "** a utiliser ``" + PREFIX + "s`` dans le salon " + message.channel +" !\nProvenance du message : ``" + message.guild.name + "``"));
-        break; 
 
         case "stop":
             if(!message.member.voiceChannel) {
@@ -1640,7 +1471,6 @@ bot.on("message", async function(message) {
                     message.delete()
                 }
         break; 
-
    /*     case "changeprefix":
             if(!prefixes[message.guild.id]){
                 prefixes[message.guild.id] = {
@@ -1659,4 +1489,4 @@ bot.on("message", async function(message) {
     }
 });
 
-bot.login(process.env.TOKEN)
+bot.login(process.env.TOKEN);
