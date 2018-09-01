@@ -1461,13 +1461,13 @@ bot.on("message", async function(message) {
                 })
         break;
         
-    /*    case "majinfo":
+      /*  case "majinfo":
                 if (message.author.id === "193092758267887616") {
                         var maj_embed = new Discord.RichEmbed()
                         .setAuthor("Update " + version, message.author.avatarURL)
-                            .addField("🇫🇷Petite Update🇫🇷,", `**Le bug de toutes les commandes a été réglé, l'embed du play a subi une légère modificication et les "staff-logs" ce sont transformer en "commandes-logs" et sont maintenant relié à tous les serveurs discord ou le bot est. ( Tout ce que vous ferez avec, je le verrai :o ) **.`)
-                            .addField("🇬🇧Little Update🇬🇧,", `**The bug of all the commandes was settled, the embed of the play underwent a light one modificication and "staff-logs" they are to transform into "commandes-logs" and are now connected with all the waiters discord or the malformed is. ( All that you will make with, I shall see him :o )**.`)
-                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `**El bug de todos los pedidos(mandos) ha sido ajustado, el embed del play sufrió un ligero modificication y "staff-logs" esto son transformar "commandes-logs" y ahora son unidos a todos los camareros discord o el deforme es. ( Todo lo que usted hará con, lo veré :o )**.`)
+                            .addField("🇫🇷Petite Update🇫🇷,", `**La plupart des "EN DEV" des embeds de musique ont été terminées**.`)
+                            .addField("🇬🇧Little Update🇬🇧,", `**Most of the "EN DEV" music embeds have been completed**.`)
+                            .addField("🇪🇸Pequeña de idioma🇪🇸,", `**La mayoría de las incrustaciones de música "EN DEV" se han completado**.`)
                         .setColor("#00FF6F")
                         .setFooter("Pourquoi de l'espagnol ? Parce que un/des espagnol sont sur des servuers ou le bot est ( serveur anglais d'ou anglais aussi) ! " + version)
                         .setThumbnail(message.author.avatarURL)
@@ -1476,6 +1476,7 @@ bot.on("message", async function(message) {
                     message.delete()
                 }
         break; 
+
    /*     case "changeprefix":
             if(!prefixes[message.guild.id]){
                 prefixes[message.guild.id] = {
