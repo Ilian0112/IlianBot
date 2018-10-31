@@ -1021,7 +1021,7 @@ bot.on("message", async function(message) {
                     .addField("Serveurs :", "Je suis sur " + bot.guilds.array().length + " serveurs")
                     .addField("Membres :", "Je vois ``" + bot.users.size + " membres`` au total.")
                     .addField("Version :", "La version de mon système est : ``" + version + "`` !")
-                    .addField("M'inviter", "https://discordapp.com/oauth2/authorize?client_id=446061218063581186&scope=bot&permissions=2146958591")
+                    .addField("M'inviter", "[Clique ici](https://discordapp.com/oauth2/authorize?client_id=446061218063581186&scope=bot&permissions=2146958591)")
                     .addField("Mon Serveur:", "**EN DEV**")
                     .addField("Mon site :", "https://ilianbot.000webhostapp.com")
                     .addBlankField()
