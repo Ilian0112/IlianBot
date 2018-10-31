@@ -10,10 +10,9 @@ const bot = new Discord.Client();
 //
 
 // BOT INFO
-const version = "V.1.3.1",
-const PREFIX = "*",
-const botname = "IlianBOT",
-const TOKEN = "process.env.TOKEN"
+const version = "V.1.3.1"
+const PREFIX = "*"
+const botname = "IlianBOT"
 //
 
 // EMOJI
@@ -1499,4 +1498,4 @@ bot.on("message", async function(message) {
     }
 });
 
-bot.login(TOKEN);
+bot.login(process.env.TOKEN);
