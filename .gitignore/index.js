@@ -4,14 +4,16 @@ const YTDL = require("ytdl-core");
 const fs = require("fs");
 //
 
-// NEW CLIENT
+// NEW CLIENT ( les deux pour pas ce prendre la tête )
 const client = new Discord.Client();
 const bot = new Discord.Client();
 //
 
 // BOT INFO
-const version = "V.1.3.1"
-const PREFIX = "*";
+const version = "V.1.3.1",
+const PREFIX = "*",
+const botname = "IlianBOT",
+const TOKEN = "process.env.TOKEN"
 //
 
 // EMOJI
@@ -46,6 +48,7 @@ function play(connection, message) {
 }
 //
 
+// Quand le bot est start
 bot.on("ready", function () {
     bot.user.setActivity("IlianBOT - *help", {
         'type': 'STREAMING',
@@ -62,6 +65,7 @@ bot.on("ready", function () {
 
     bot.channels.findAll("name", "commandes-logs").map(channel => channel.send(connection_embed));
 });
+//
 
 // VCS
 bot.on("message", async function (message) {
@@ -171,7 +175,7 @@ bot.on("guildMemberAdd", function(message) {
     message.guild.channels.find("name", "🤖bot-logs🤖").send("A bientôt " + message.toString() + " sur ``" + message.guild.name + "`` !");
 });
     */
-    
+// Le code avec toute les commandes, tout sera bientôt séparer un plusieurs fichiers parce que +1000 ça pique un peut !   
 bot.on("message", async function(message) {
     if (message.author.equals(bot.user)) return;
 
@@ -1495,4 +1499,4 @@ bot.on("message", async function(message) {
     }
 });
 
-bot.login(process.env.TOKEN);
+bot.login(TOKEN);
