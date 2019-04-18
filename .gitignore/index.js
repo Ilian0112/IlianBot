@@ -12,7 +12,7 @@ const bot = new Discord.Client();
 // BOT INFO
 const version = "V.1.3.1"
 const PREFIX = "*"
-const botname = "IlianBOT"
+const botname = "𝕴𝖑𝖎𝖆𝖓𝕭𝖔𝖙"
 //
 
 // EMOJI
@@ -49,13 +49,13 @@ function play(connection, message) {
 
 // Quand le bot est start
 bot.on("ready", function () {
-    bot.user.setActivity("IlianBOT - *help", {
+    bot.user.setActivity("𝕴𝖑𝖎𝖆𝖓𝕭𝖔𝖙 - *help", {
         'type': 'STREAMING',
         'url': "https://www.twitch.tv/supers_fanne"
 }),
-    bot.user.setUsername("IlianBOT")
+    bot.user.setUsername("𝕴𝖑𝖎𝖆𝖓𝕭𝖔𝖙")
     bot.user.setStatus("dnd")
-    console.log("IlianBOT - Connecté");
+    console.log("𝕴𝖑𝖎𝖆𝖓𝕭𝖔𝖙 - Connecté");
 
         var connection_embed = new Discord.RichEmbed()
             .setTitle("Je suis connecté")
