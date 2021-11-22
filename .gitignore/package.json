@@ -9,7 +9,7 @@
   "author": "ilian0112",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "13.3.1",
     "discord.js-arbitrary-ffmpeg": "^1.0.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^4.0.0",
